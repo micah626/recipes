@@ -125,8 +125,9 @@ window.RECIPES = [
   tag: "LB",
   color: "#7a2e5c",
   blurb: "A hollowed-out round loaf layered with meat sauce, noodles and cheese, baked under garlic butter.",
-  serves: 6,
+  serves: 8,
   time: "1 hr 5 min",
+  macros: { cal: "~650", protein: "~30g", carbs: "~54g", fat: "~33g" },
   groceries: [
     ["Meat", ["Ground beef, **0.5 pounds**"]],
     ["Dairy & eggs", ["Shredded mozzarella, **3.5 cups** total", "Grated romano or parmesan, **0.75 cups** total", "Butter, **0.5 cups** (1 stick)", "Large egg, **1** (optional)"]],
@@ -149,7 +150,7 @@ window.RECIPES = [
   ],
   tips: [
     "Without ricotta the cheese layers come out stretchy and stringy instead of soft and creamy. For some of that creaminess back, stir 4 oz of softened cream cheese into the filling.",
-    "6 servings is an estimate."
+    "Cut into 8 servings (the original estimate was 6). Nutrition is a rough estimate: the size of the loaf and how much bread you pull out change it the most."
   ]
 }
 ];
