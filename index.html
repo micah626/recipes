@@ -93,7 +93,10 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .sv-reset{font-size:13px;font-weight:600;color:var(--accent-ink);padding:6px 2px}
 .scale-note{background:var(--accent-soft);color:var(--ink2);border-radius:12px;padding:10px 14px;font-size:14px;line-height:1.5;margin:12px 0 0}
 .scale-note b{color:var(--ink)}
-.steps b.scaled{color:var(--accent-ink)}
+.steps b.scaled,.items b.scaled{color:var(--accent-ink)}
+.items b{font-weight:inherit}
+.items b.scaled{font-weight:600}
+input[type=checkbox]:checked+span b.scaled{color:inherit}
 .steps li.done b.scaled{color:var(--muted)}
 .hero h1{font:600 clamp(32px,8.5vw,44px)/1.08 var(--serif);letter-spacing:-.022em;margin:0 0 12px;text-wrap:balance}
 .hero .blurb{color:var(--ink2);font-size:17px;line-height:1.55;margin:0;text-wrap:pretty}
@@ -147,8 +150,8 @@ input[type=checkbox]:checked+span{color:var(--muted);text-decoration-color:curre
 </head>
 <body>
 <div id="app"></div>
-<script>window.APP_V="1795463388"</script>
-<script src="recipes.js?v=1795463388"></script>
+<script>window.APP_V="1795466127"</script>
+<script src="recipes.js?v=1795466127"></script>
 <script>
 {
 const R = window.RECIPES || [];
@@ -195,7 +198,7 @@ function drawList(){
   const terms = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
   const hits = R.map((r,i)=>[r,i]).filter(([r]) => {
     if(!terms.length) return true;
-    const hay = [r.name, r.blurb||"", ...r.groceries.flatMap(g=>[g[0],...g[1]])].join(" ").toLowerCase();
+    const hay = [r.name, r.blurb||"", ...r.groceries.flatMap(g=>[g[0],...g[1].map(t=>grocHTML(t,1))])].join(" ").toLowerCase();
     return terms.every(t => hay.includes(t));
   });
   document.getElementById("list").innerHTML = hits.length ? hits.map(([r,i]) => {
@@ -248,7 +251,7 @@ function renderRecipe(r){
       <div class="sec-head"><h2 id="h-groc">Groceries</h2><span class="count" id="c-groc"></span></div>
       <div class="progress"><i id="p-groc"></i></div>
       <p class="scale-note" id="g-note" hidden></p>
-      ${r.groceries.map((g,gi)=>`<div class="group"><h3>${esc(g[0])}</h3><ul class="items">${g[1].map((it,ii)=>{const k=`${r.id}:g${gi}-${ii}`;return `<li><label><input type="checkbox" data-k="${k}"${S[k]?" checked":""}><span>${esc(it)}</span></label></li>`}).join("")}</ul></div>`).join("")}
+      ${r.groceries.map((g,gi)=>`<div class="group"><h3>${esc(g[0])}</h3><ul class="items">${g[1].map((it,ii)=>{const k=`${r.id}:g${gi}-${ii}`;return `<li><label><input type="checkbox" data-k="${k}"${S[k]?" checked":""}><span class="gt">${grocHTML(it,1)}</span></label></li>`}).join("")}</ul></div>`).join("")}
     </section>
 
     <section aria-labelledby="h-steps">
@@ -306,9 +309,11 @@ function renderRecipe(r){
     view.querySelector('[data-d="1"]').disabled = serv >= maxServ;
     view.querySelector("#sv-reset").hidden = f === 1;
     view.querySelectorAll(".steps .x").forEach((x,i) => { x.innerHTML = f === 1 ? stepHTML[i] : scaleBold(stepHTML[i], f); });
+    const items = r.groceries.flatMap(g => g[1]);
+    view.querySelectorAll(".items .gt").forEach((el,i) => { el.innerHTML = grocHTML(items[i], f); });
     const note = view.querySelector("#g-note");
     note.hidden = f === 1;
-    if(f !== 1) note.innerHTML = `This list is for <b>${base} servings</b>. You're making ${serv}, so buy about <b>${mult(f)}</b> as much. The amounts in the steps are already adjusted.`;
+    if(f !== 1) note.innerHTML = `Adjusted for <b>${serv} servings</b>. Package counts are rounded up, so you may have a little left over. Pantry items and spices without amounts aren't adjusted, so check you have enough.`;
     view.querySelector("#s-hint").textContent = f === 1 ? "Tap a step to mark it done." : `Amounts are adjusted for ${serv} servings. Tap a step to mark it done.`;
     if(f === 1) delete SV[r.id]; else SV[r.id] = serv;
     store.set("recipeServings", SV);
@@ -380,7 +385,25 @@ function scaleBold(html, f){
     return out;
   });
 }
-const mult = f => (+f.toFixed(2)) + "×";
+// Grocery text: **amounts** scale like steps; {1 box|9/16} is a package count (buy 1, recipe uses 9/16 of it).
+const fracNum = s => s.split("/").map(Number).reduce((a,b) => a/b);
+function plural(word, n){
+  if(/dozen$/i.test(word)) return word;
+  const one = word.replace(/(ch|sh|x)es$/i, "$1").replace(/([^s])s$/i, "$1");
+  return n === 1 ? one : one + (/(ch|sh|x|s)$/i.test(one) ? "es" : "s");
+}
+const SIZE_ONLY = /^[\d.¼½¾⅓⅔]+\s*(oz|fl oz|lbs?|g|kg|ml)$/i;
+function grocHTML(t, f){
+  let h = esc(t).replace(/\{(\d+)\s+([^|}]+)\|([\d.\/]+)\}(\s*\(([^)]*)\))?/g, (m, n, unit, use, paren, inner) => {
+    if(f === 1) return `${n} ${unit}${paren || ""}`;
+    const c = Math.max(1, Math.ceil(fracNum(use) * f - 1e-9));
+    let out = `<b class="scaled">${c} ${plural(unit, c)}</b>`;
+    if(paren) out += c > 1 && SIZE_ONLY.test(inner.trim()) ? paren.replace(inner, inner + " each")
+                   : c === 1 ? paren.replace(/\s+each\)$/, ")") : paren;
+    return out;
+  });
+  return f === 1 ? h.replace(/\*\*(.+?)\*\*/g, "$1") : scaleBold(h.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>"), f);
+}
 
 /* ---------- Routing ---------- */
 function goHome(){

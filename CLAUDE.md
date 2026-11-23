@@ -43,7 +43,15 @@ decimals kept for decimal amounts like 2.4 lb, whole numbers for counts like 10 
 scale in bold, with its unit right after the number ("**2½ tsp smoked paprika**", "**10 eggs**").
 A note in parentheses directly after a bold amount is rescaled if it holds a measurement ("(just over 2 cups dry)") and
 hidden if it holds some other number ("(¾ of the block)"). Times, temperatures and sizes ("8 minutes", "165°F",
-"1.5-inch") must not be bold. The grocery list is never rescaled; it shows a "buy about 2× as much" note instead.
+"1.5-inch") must not be bold.
+
+The grocery list scales too:
+- Bold amounts scale the same way ("Chicken breast, **1.75 lb**", "(you need **10**)").
+- Package counts use `{count unit|packages used}`: `{1 box|9/16} (1 lb)` means buy 1 box and the recipe uses 9 oz of it.
+  When scaled, the count is rounded up (2 boxes at 10 servings) and a bare size note becomes "(1 lb each)".
+  Work out "packages used" from the step amounts and the package size; ask the owner if a package size is unknown.
+- Items with no amount (spices, sauces, "Honey") are left as is.
+At the original servings everything displays exactly as written, without the markup.
 
 Tile colors already in use: `#b8261c` (red), `#9a5b13` (amber). Other good ones: `#3f6b2a` green, `#1f5f8b` blue,
 `#7a2e5c` plum, `#0f6b63` teal, `#5b3fa0` violet.

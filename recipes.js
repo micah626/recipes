@@ -1,5 +1,7 @@
 // Recipe data. To add a recipe, append an object to this list (see CLAUDE.md).
-// Steps: [title, text]. Wrap amounts in **double asterisks** to highlight them.
+// Steps: [title, text]. Wrap amounts in **double asterisks** so they scale with servings.
+// Groceries: **amounts** scale too. Package counts are written {count unit|packages used}, e.g.
+// {1 box|9/16} = buy 1 box, the recipe uses 9/16 of it. Scaled counts are rounded up.
 window.RECIPES = [
 {
   id: "honey-chipotle",
@@ -10,10 +12,10 @@ window.RECIPES = [
   serves: 5,
   macros: { cal: "651", protein: "61g", carbs: "54g", fat: "22g" },
   groceries: [
-    ["Meat", ["Boneless skinless chicken thighs, about 2.5 lb (or about 4 lb bone-in to debone yourself)"]],
-    ["Dairy", ["Light butter (about 4½ tbsp total)", "Fat-free evaporated milk, 1 can (12 oz), or skim milk", "Light cream cheese, 1 block (8 oz)", "Reduced-fat shredded cheddar, 1 bag (8 oz)"]],
+    ["Meat", ["Boneless skinless chicken thighs, about **2.5 lb** (or about 4 lb bone-in to debone yourself)"]],
+    ["Dairy", ["Light butter (about **4½ tbsp** total)", "Fat-free evaporated milk, {1 can|1.25/1.5} (12 oz), or skim milk", "Light cream cheese, {1 block|6/8} (8 oz)", "Reduced-fat shredded cheddar, {1 bag|1/2} (8 oz)"]],
     ["Produce", ["Fresh parsley, 1 bunch"]],
-    ["Pantry", ["Elbow macaroni, 1 box (1 lb)", "Cholula Chipotle hot sauce, 2 bottles", "Honey", "Jarred minced garlic", "Olive oil"]],
+    ["Pantry", ["Elbow macaroni, {1 box|9/16} (1 lb)", "Cholula Chipotle hot sauce, {2 bottles|13/10}", "Honey", "Jarred minced garlic", "Olive oil"]],
     ["Spices (check what you have)", ["Salt", "Dried oregano", "Smoked paprika", "Garlic powder", "Onion powder", "Ground cumin"]]
   ],
   steps: [
@@ -41,9 +43,9 @@ window.RECIPES = [
   serves: 5,
   macros: { cal: "~620", protein: "~50g" },
   groceries: [
-    ["Meat & eggs", ["Chicken breast, 1.75 lb", "Eggs, 1 dozen (you need 10)"]],
-    ["Frozen", ["Mixed frozen veggies, 1 bag (about 10.5 oz)"]],
-    ["Pasta", ["Spaghetti (1 lb box) or lo mein noodles (2 packs, 8 oz each)"]],
+    ["Meat & eggs", ["Chicken breast, **1.75 lb**", "Eggs, {1 dozen|10/12} (you need **10**)"]],
+    ["Frozen", ["Mixed frozen veggies, {1 bag|1} (about **10.5 oz**)"]],
+    ["Pasta", ["Spaghetti, {1 box|10.5/16} (1 lb), or lo mein noodles, {2 packs|10.5/8} (8 oz each)"]],
     ["Pantry & sauces", ["Regular soy sauce (low-sodium if you want)", "Dark soy sauce", "Oyster sauce", "Sesame oil", "Avocado oil", "Sriracha (Sriracha Hot Chili Sauce, not sweet chili sauce)", "Honey or brown sugar", "Garlic powder", "Rice vinegar (optional)"]]
   ],
   steps: [
