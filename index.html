@@ -178,7 +178,7 @@ list.addEventListener("keydown",e=>{const li=e.target.closest("ol.steps li");if(
 const cards=[...document.querySelectorAll("details.card")];
 document.getElementById("openAll").addEventListener("click",()=>cards.forEach((d,i)=>setTimeout(()=>setOpen(d,true),i*60)));
 document.getElementById("closeAll").addEventListener("click",()=>cards.forEach(d=>setOpen(d,false)));
-const APP_V="1795458587";
+const APP_V="1795458651";
 const checkUpdate=()=>fetch("version.json?t="+Date.now(),{cache:"no-store"}).then(r=>r.json()).then(j=>{if(j.v&&j.v!==APP_V&&!location.search.includes("v="+j.v))location.replace(location.pathname+"?v="+j.v)}).catch(()=>{});
 checkUpdate();document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 }
