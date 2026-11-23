@@ -118,5 +118,38 @@ window.RECIPES = [
     "To reheat, take off the foil, wrap in a damp paper towel and microwave 3–4 minutes from the fridge or 5–6 from frozen, flipping halfway, then crisp it in a pan or air fryer for a couple of minutes.",
     "The video's caption gives ingredients but no cooking steps, so the steps follow the standard method for each part."
   ]
+},
+{
+  id: "lasagna-stuffed-bread",
+  name: "Lasagna Stuffed Bread (no ricotta)",
+  tag: "LB",
+  color: "#7a2e5c",
+  blurb: "A hollowed-out round loaf layered with meat sauce, noodles and cheese, baked under garlic butter.",
+  serves: 6,
+  time: "1 hr 5 min",
+  groceries: [
+    ["Meat", ["Ground beef, **0.5 pounds**"]],
+    ["Dairy & eggs", ["Shredded mozzarella, **3.5 cups** total", "Grated romano or parmesan, **0.75 cups** total", "Butter, **0.5 cups** (1 stick)", "Large egg, **1** (optional)"]],
+    ["Produce", ["Fresh parsley, **3 tablespoons** chopped total", "Garlic, **3 cloves**"]],
+    ["Bakery", ["Large round loaf of bread (like a sourdough boule), **1**"]],
+    ["Pantry", ["Pasta sauce, **3 cups**", "Lasagna noodles, **0.5 pounds**"]],
+    ["Spices (check what you have)", ["Black pepper, **0.25 teaspoons**"]]
+  ],
+  steps: [
+    ["Heat the oven", "Preheat the oven to 375°F."],
+    ["Cook the noodles", "Boil **0.5 pounds lasagna noodles** according to the package, then drain and lay them flat so they don't stick together.", "10m"],
+    ["Mix the cheese filling", "In a bowl, toss together **2.5 cups shredded mozzarella** (filling), **0.5 cups grated romano or parmesan** (filling), **2 tablespoons fresh parsley**, chopped (filling) and **0.25 teaspoons black pepper**. Stir in **1 large egg** (optional) if you're using it; it helps the cheese layer hold together when you slice."],
+    ["Make the meat sauce", "Brown **0.5 pounds ground beef** in a pan, breaking it up, until no pink is left. Stir in **3 cups pasta sauce**, bring it to a simmer, then take it off the heat.", "8m"],
+    ["Hollow the bread", "Slice the top off **1 large round loaf** of bread (like a sourdough boule) and save it as a lid. Pull out most of the soft bread inside, leaving a sturdy shell about ½ inch thick."],
+    ["Layer it", "Spoon in a layer of meat sauce, then noodles (cut or fold them to fit), then a sprinkle of the cheese mix. Repeat until the bread is full, ending with sauce."],
+    ["Add the lid and garlic butter", "Put the top back on. Mix **0.5 cups butter, softened** (1 stick) with **3 garlic cloves**, minced and **1 tablespoon fresh parsley**, chopped (topping), then brush it all over the top of the loaf."],
+    ["Add the cheese", "Sprinkle **1 cup shredded mozzarella** (topping) and **0.25 cups grated parmesan or romano** (topping) over the top."],
+    ["Bake", "Bake at 375°F for 30 minutes.", "30m"],
+    ["Broil", "Switch to broil for 1–2 minutes, watching closely, until the cheese is golden and bubbly. Let it rest 5 minutes before cutting so the cheese sets a bit.", "1m 30s"]
+  ],
+  tips: [
+    "Without ricotta the cheese layers come out stretchy and stringy instead of soft and creamy. For some of that creaminess back, stir 4 oz of softened cream cheese into the filling.",
+    "6 servings is an estimate."
+  ]
 }
 ];

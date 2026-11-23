@@ -59,8 +59,8 @@ The grocery list scales too:
 - Items with no amount (spices, sauces, "Honey") are left as is.
 At the original servings everything displays exactly as written, without the markup.
 
-Tile colors already in use: `#b8261c` (red), `#9a5b13` (amber), `#3f6b2a` (green). Other good ones: `#1f5f8b` blue,
-`#7a2e5c` plum, `#0f6b63` teal, `#5b3fa0` violet.
+Tile colors already in use: `#b8261c` (red), `#9a5b13` (amber), `#3f6b2a` (green), `#7a2e5c` (plum).
+Other good ones: `#1f5f8b` blue, `#0f6b63` teal, `#5b3fa0` violet.
 
 ### Chicken: dark or white meat
 

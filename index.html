@@ -161,8 +161,8 @@ input[type=checkbox]:checked+span{color:var(--muted);text-decoration-color:curre
 </head>
 <body>
 <div id="app"></div>
-<script>window.APP_V="1795468328"</script>
-<script src="recipes.js?v=1795468328"></script>
+<script>window.APP_V="1795469721"</script>
+<script src="recipes.js?v=1795469721"></script>
 <script>
 {
 const R = window.RECIPES || [];
@@ -412,8 +412,8 @@ const UNIT_WORD = /^(tsp|tbsp|teaspoons?|tablespoons?|cups?|oz|ounces?|lbs?|poun
 function agree(before, after){
   const o = before.match(/^(\d+)\s+([A-Za-z-]+)/), a = after.match(/^(\d+)\s/);
   if(!o || !a || UNIT_WORD.test(o[2])) return after;
-  if(o[1] === "1" && a[1] !== "1") return after.replace(/([A-Za-z])$/, "$1s").replace(/(ch|sh|x|s)s$/, "$1es");
-  if(o[1] !== "1" && a[1] === "1") return after.replace(/([^s])s$/, "$1");
+  if(o[1] === "1" && a[1] !== "1") return /loaf$/i.test(after) ? after.replace(/f$/i, "ves") : after.replace(/([A-Za-z])$/, "$1s").replace(/(ch|sh|x|s)s$/, "$1es");
+  if(o[1] !== "1" && a[1] === "1") return /loaves$/i.test(after) ? after.replace(/ves$/i, "f") : after.replace(/([^s])s$/, "$1");
   return after;
 }
 // Scale amounts in **bold**. A note in parentheses right after one, like "(just over 2 cups dry)",
