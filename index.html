@@ -82,7 +82,19 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .bar.stuck .bar-title{opacity:1;transform:none}
 .bar-spacer{width:84px;flex:none}
 .hero{padding:12px 0 4px}
-.hero .eyebrow{margin-bottom:10px}
+.serv-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:22px 0 0}
+.serv{display:inline-flex;align-items:center;gap:2px;background:var(--surface);box-shadow:var(--shadow);border-radius:999px;padding:4px}
+.sv-btn{width:36px;height:36px;border-radius:50%;background:var(--field);color:var(--ink);display:grid;place-items:center;transition:transform .15s var(--ease),opacity .2s}
+.sv-btn svg{width:16px;height:16px}
+.sv-btn:active{transform:scale(.9)}
+.sv-btn:disabled{opacity:.35;cursor:default}
+.sv-val{min-width:112px;text-align:center;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sv-val b{font:600 18px/1 var(--serif);color:var(--ink);margin-right:3px}
+.sv-reset{font-size:13px;font-weight:600;color:var(--accent-ink);padding:6px 2px}
+.scale-note{background:var(--accent-soft);color:var(--ink2);border-radius:12px;padding:10px 14px;font-size:14px;line-height:1.5;margin:12px 0 0}
+.scale-note b{color:var(--ink)}
+.steps b.scaled{color:var(--accent-ink)}
+.steps li.done b.scaled{color:var(--muted)}
 .hero h1{font:600 clamp(32px,8.5vw,44px)/1.08 var(--serif);letter-spacing:-.022em;margin:0 0 12px;text-wrap:balance}
 .hero .blurb{color:var(--ink2);font-size:17px;line-height:1.55;margin:0;text-wrap:pretty}
 .stats{display:grid;grid-template-columns:repeat(var(--n),1fr);margin:26px 0 0;background:var(--surface);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
@@ -92,7 +104,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .stat .v{display:block;font:600 22px/1.15 var(--serif);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
 .stat .k{display:block;font-size:12px;color:var(--muted);margin-top:2px}
 .stats-note{font-size:12px;color:var(--muted);margin:8px 2px 0}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 0}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 0}
 .pill{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px;border-radius:999px;background:var(--field);color:var(--ink2);font-size:14px;font-weight:500;transition:background-color .2s,color .2s,transform .15s var(--ease)}
 .pill:active{transform:scale(.97)}
 .pill svg{width:17px;height:17px}
@@ -135,8 +147,8 @@ input[type=checkbox]:checked+span{color:var(--muted);text-decoration-color:curre
 </head>
 <body>
 <div id="app"></div>
-<script>window.APP_V="1795459493"</script>
-<script src="recipes.js?v=1795459493"></script>
+<script>window.APP_V="1795463388"</script>
+<script src="recipes.js?v=1795463388"></script>
 <script>
 {
 const R = window.RECIPES || [];
@@ -214,11 +226,18 @@ function renderRecipe(r){
   </div></div>
   <div class="wrap">
     <header class="hero">
-      <p class="eyebrow">Serves ${esc(r.serves)}</p>
       <h1 id="title">${esc(r.name)}</h1>
       ${r.blurb?`<p class="blurb">${esc(r.blurb)}</p>`:""}
       ${stats.length?`<div class="stats" style="--n:${stats.length}">${stats.map(([,l,v])=>`<div class="stat"><span class="v">${esc(v)}</span><span class="k">${l}</span></div>`).join("")}</div>`:""}
       ${stats.length?`<p class="stats-note">Nutrition is per serving.</p>`:""}
+      <div class="serv-row">
+        <div class="serv" role="group" aria-label="Servings">
+          <button class="sv-btn" type="button" data-d="-1" aria-label="Fewer servings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
+          <span class="sv-val" aria-live="polite"><b id="sv"></b><span id="sv-l"></span></span>
+          <button class="sv-btn" type="button" data-d="1" aria-label="More servings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+        </div>
+        <button class="sv-reset" id="sv-reset" type="button" hidden>Reset to ${esc(r.serves)}</button>
+      </div>
       <div class="actions">
         ${"wakeLock" in navigator?`<button class="pill" id="wake" type="button" aria-pressed="false">${icon.sun}Keep screen on</button>`:""}
         <button class="pill" id="reset" type="button">${icon.reset}Clear checkmarks</button>
@@ -228,14 +247,15 @@ function renderRecipe(r){
     <section aria-labelledby="h-groc">
       <div class="sec-head"><h2 id="h-groc">Groceries</h2><span class="count" id="c-groc"></span></div>
       <div class="progress"><i id="p-groc"></i></div>
+      <p class="scale-note" id="g-note" hidden></p>
       ${r.groceries.map((g,gi)=>`<div class="group"><h3>${esc(g[0])}</h3><ul class="items">${g[1].map((it,ii)=>{const k=`${r.id}:g${gi}-${ii}`;return `<li><label><input type="checkbox" data-k="${k}"${S[k]?" checked":""}><span>${esc(it)}</span></label></li>`}).join("")}</ul></div>`).join("")}
     </section>
 
     <section aria-labelledby="h-steps">
       <div class="sec-head"><h2 id="h-steps">Steps</h2><span class="count" id="c-steps"></span></div>
       <div class="progress"><i id="p-steps"></i></div>
-      <p class="hint">Tap a step to mark it done.</p>
-      <ol class="steps">${r.steps.map((s,i)=>{const k=`${r.id}:s${i}`;return `<li data-k="${k}" class="${S[k]?"done":""}" tabindex="0" role="checkbox" aria-checked="${!!S[k]}"><span class="t">${esc(s[0])}</span>${md(s[1])}</li>`}).join("")}</ol>
+      <p class="hint" id="s-hint">Tap a step to mark it done.</p>
+      <ol class="steps">${r.steps.map((s,i)=>{const k=`${r.id}:s${i}`;return `<li data-k="${k}" class="${S[k]?"done":""}" tabindex="0" role="checkbox" aria-checked="${!!S[k]}"><span class="t">${esc(s[0])}</span><span class="x">${md(s[1])}</span></li>`}).join("")}</ol>
     </section>
 
     ${r.tips&&r.tips.length?`<section aria-labelledby="h-tips"><div class="sec-head"><h2 id="h-tips">Tips</h2></div><ul class="tips">${r.tips.map(t=>`<li>${md(t)}</li>`).join("")}</ul></section>`:""}
@@ -273,6 +293,30 @@ function renderRecipe(r){
     view.querySelectorAll(".steps li").forEach(l=>{l.classList.remove("done");l.setAttribute("aria-checked","false")});
     progress();
   });
+  // Servings: rescale bold amounts in the steps
+  const SV = store.get("recipeServings");
+  const base = r.serves, maxServ = Math.max(20, base*4);
+  let serv = Math.min(maxServ, Math.max(1, +SV[r.id] || base));
+  const stepHTML = r.steps.map(s => md(s[1]));
+  const applyServings = () => {
+    const f = serv / base;
+    view.querySelector("#sv").textContent = serv;
+    view.querySelector("#sv-l").textContent = serv === 1 ? "serving" : "servings";
+    view.querySelector('[data-d="-1"]').disabled = serv <= 1;
+    view.querySelector('[data-d="1"]').disabled = serv >= maxServ;
+    view.querySelector("#sv-reset").hidden = f === 1;
+    view.querySelectorAll(".steps .x").forEach((x,i) => { x.innerHTML = f === 1 ? stepHTML[i] : scaleBold(stepHTML[i], f); });
+    const note = view.querySelector("#g-note");
+    note.hidden = f === 1;
+    if(f !== 1) note.innerHTML = `This list is for <b>${base} servings</b>. You're making ${serv}, so buy about <b>${mult(f)}</b> as much. The amounts in the steps are already adjusted.`;
+    view.querySelector("#s-hint").textContent = f === 1 ? "Tap a step to mark it done." : `Amounts are adjusted for ${serv} servings. Tap a step to mark it done.`;
+    if(f === 1) delete SV[r.id]; else SV[r.id] = serv;
+    store.set("recipeServings", SV);
+  };
+  view.querySelectorAll(".sv-btn").forEach(b => b.addEventListener("click", () => { serv = Math.min(maxServ, Math.max(1, serv + +b.dataset.d)); applyServings(); }));
+  view.querySelector("#sv-reset").addEventListener("click", () => { serv = base; applyServings(); });
+  applyServings();
+
   const wake = view.querySelector("#wake");
   if(wake){ wake.addEventListener("click", () => setWake(!wantWake)); syncWake(); }
 
@@ -293,6 +337,50 @@ async function setWake(on){
   syncWake();
 }
 document.addEventListener("visibilitychange", () => { if(!document.hidden && wantWake && !wakeLock) setWake(true); });
+
+/* ---------- Scaling ---------- */
+const FR = {"¼":.25,"½":.5,"¾":.75,"⅓":1/3,"⅔":2/3,"⅛":.125,"⅜":.375,"⅝":.625,"⅞":.875};
+const VOLUME = /^(tsp|tbsp|teaspoons?|tablespoons?|cups?)$/i, WEIGHT = /^(oz|ounces?|lbs?|pounds?)$/i, METRIC = /^(g|grams?|ml|kg|l)$/i;
+function frac(v, eighths){
+  let w = Math.floor(v + 1e-9), f = v - w;
+  let opts = [[0,""],[.25,"¼"],[1/3,"⅓"],[.5,"½"],[2/3,"⅔"],[.75,"¾"],[1,""]];
+  if(eighths && w === 0) opts = [[.125,"⅛"], ...opts];
+  if(w >= 10) opts = [[0,""],[.5,"½"],[1,""]];
+  let best = opts.reduce((a,o) => Math.abs(o[0]-f) < Math.abs(a[0]-f) ? o : a);
+  if(best[0] === 1){ w += 1; best = [0,""]; }
+  if(w === 0 && !best[1]) return "⅛";
+  return (w || "") + best[1];
+}
+function scaleNum(tok, unit, f){
+  const v = (/^\d*[¼½¾⅓⅔⅛⅜⅝⅞]$/.test(tok) ? (+tok.slice(0,-1)||0) + FR[tok.slice(-1)] : +tok) * f;
+  if(/^(tbsp|tablespoons?)$/i.test(unit) && v < .99 && !tok.includes(".")) return [frac(v*3, true), "tsp"];
+  if(tok.includes(".")){ const d = tok.split(".")[1].length; return [String(+v.toFixed(d) || +v.toFixed(d+1)), unit]; }
+  if(VOLUME.test(unit)) return [frac(v, true), unit];
+  if(WEIGHT.test(unit)) return [frac(v, false), unit];
+  if(METRIC.test(unit)) return [String(Math.max(1, Math.round(v))), unit];
+  if(/[¼½¾⅓⅔⅛⅜⅝⅞]/.test(tok)) return [frac(v, true), unit];
+  return [String(Math.max(1, Math.round(v))), unit];   // counts like "10 eggs"
+}
+const NUMTOK = /(\d+\.\d+|\d*[¼½¾⅓⅔⅛⅜⅝⅞]|\d+)(\s*)([A-Za-z]*)/g;
+const scaleAll = (text, f) => text.replace(NUMTOK, (m, tok, sp, unit) => {
+  let n; [n, unit] = scaleNum(tok, unit, f);
+  if(/^cups?$/i.test(unit)) unit = (n === "1" || /^[¼½¾⅓⅔⅛]$/.test(n)) ? "cup" : "cups";
+  return n + sp + unit;
+});
+// Scale amounts in **bold**. A note in parentheses right after one, like "(just over 2 cups dry)",
+// is scaled too if it holds a measurement, or dropped if it holds some other number, like "(¾ of the block)".
+function scaleBold(html, f){
+  return html.replace(/<b>(.*?)<\/b>(\s*\(([^)]*)\))?/g, (m, inner, paren, note) => {
+    let out = `<b class="scaled">${scaleAll(inner, f)}</b>`;
+    if(paren){
+      if(/\d*[¼½¾⅓⅔⅛⅜⅝⅞]|\d/.test(note)) {
+        if(/(\d|[¼½¾⅓⅔⅛⅜⅝⅞])\s*(tsp|tbsp|cups?|oz|lbs?)\b/i.test(note)) out += paren.replace(note, scaleAll(note, f));
+      } else out += paren;
+    }
+    return out;
+  });
+}
+const mult = f => (+f.toFixed(2)) + "×";
 
 /* ---------- Routing ---------- */
 function goHome(){
