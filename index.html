@@ -3,184 +3,323 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Cooking Recipes</title>
+<title>Recipes</title>
+<meta name="description" content="Meal prep recipes with grocery lists and step-by-step instructions.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Recipes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#b8261c">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#faf8f5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f0d0c" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:light dark;
---bg:light-dark(#f6f3f1,#120e0c);--ink:light-dark(#201a17,#f3ece7);--muted:light-dark(#7a6f68,#a89a90);
---card:light-dark(#ffffff,#1d1714);--line:light-dark(#efe8e3,#2c2420);
---red:#b8261c;--red2:light-dark(#b8261c,#ef6a5c);--honey:#f2b632;--chip:light-dark(#f8efe9,#2a211c);
---shadow:light-dark(0 1px 2px rgba(60,30,20,.05),0 0 0 1px #2c2420);
---shadow-lg:light-dark(0 2px 4px rgba(60,30,20,.04),0 12px 32px rgba(60,30,20,.08));
---ease:cubic-bezier(.22,.8,.24,1)}
-:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
-*{box-sizing:border-box;min-width:0;-webkit-tap-highlight-color:transparent}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Plus Jakarta Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
-header{background:linear-gradient(160deg,#c42d22,#a51f17);color:#fff;padding:calc(30px + env(safe-area-inset-top)) max(5vw,20px) 34px;border-radius:0 0 28px 28px}
-.wrap{max-width:720px;margin:0 auto}
-h1{font-size:clamp(32px,8vw,42px);line-height:1.1;font-weight:700;letter-spacing:-.02em;margin:0 0 4px}
-header p{margin:0 0 18px;color:#ffd9d3;font-size:15px}
-.tools{display:flex;gap:8px;flex-wrap:wrap}
-button{font:600 14px/1 "Plus Jakarta Sans",system-ui,sans-serif;min-height:40px;padding:0 16px;border-radius:999px;cursor:pointer;border:0;transition:transform .2s var(--ease),background-color .2s,opacity .2s}
-button:active{transform:scale(.96)}
-header button{background:rgba(255,255,255,.18);color:#fff;backdrop-filter:blur(6px)}
-header button:first-child{background:#fff;color:var(--red)}
-button:focus-visible,summary:focus-visible{outline:2px solid var(--honey);outline-offset:3px}
-main{padding:22px max(4vw,14px) calc(48px + env(safe-area-inset-bottom))}
-.card{background:var(--card);border-radius:22px;margin:0 0 14px;box-shadow:var(--shadow);transition:box-shadow .35s var(--ease)}
-.card.is-open{box-shadow:var(--shadow-lg)}
-summary{list-style:none;cursor:pointer;padding:18px 18px;display:flex;gap:14px;align-items:center;border-radius:22px;transition:transform .2s var(--ease),background-color .2s;user-select:none;-webkit-user-select:none}
-summary:active{transform:scale(.985)}
-summary::-webkit-details-marker{display:none}
-.dot{flex:none;width:46px;height:46px;border-radius:15px;background:linear-gradient(150deg,#f6c453,#eaa21c);display:grid;place-items:center;color:#4a3104;font-weight:700;font-size:15px;letter-spacing:.02em}
-.sum{flex:1}
-.sum h2{font-size:18px;line-height:1.3;margin:0 0 2px;font-weight:700;letter-spacing:-.01em}
-.meta{display:block;color:var(--muted);font-size:14px;line-height:1.4;text-wrap:pretty}
-.chev{flex:none;width:32px;height:32px;padding:6px;border-radius:50%;background:var(--chip);color:var(--muted);transition:transform .4s var(--ease)}
-.card.is-open .chev{transform:rotate(180deg)}
-.body{overflow:hidden}
-.inner{padding:2px 20px 22px}
-.macros{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 6px}
-.macros span{background:var(--chip);border-radius:12px;padding:7px 12px;font-size:14px;white-space:nowrap;color:var(--muted)}
-.macros b{font-weight:700;color:var(--ink)}
-h3{font-size:16px;font-weight:700;margin:24px 0 6px;color:var(--red2);letter-spacing:-.01em}
-h4{font-size:13px;font-weight:600;color:var(--muted);margin:14px 0 0;text-transform:none}
-ul.groc{list-style:none;margin:0;padding:0}
-ul.groc label{display:flex;gap:12px;align-items:flex-start;padding:9px 0;cursor:pointer;min-height:44px}
-input[type=checkbox]{appearance:none;-webkit-appearance:none;flex:none;width:22px;height:22px;margin:1px 0 0;border-radius:7px;border:1.5px solid light-dark(#d6cbc4,#4a3d36);background:var(--card) center/14px no-repeat;transition:background-color .25s var(--ease),border-color .25s,transform .25s var(--ease);cursor:pointer}
-input[type=checkbox]:checked{background-color:var(--red);border-color:var(--red);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");transform:scale(1.06)}
-input[type=checkbox]+span{text-decoration:line-through;text-decoration-color:transparent;transition:color .3s,text-decoration-color .3s}
+:root{
+  color-scheme:light;
+  --bg:#faf8f5;--surface:#ffffff;--ink:#1c1917;--ink2:#44403c;--muted:#78716c;
+  --line:#ebe5de;--line2:#f3efea;--accent:#b8261c;--accent-ink:#b8261c;--accent-soft:#fbece9;
+  --check:#b8261c;--field:#f3efea;
+  --shadow:0 1px 2px rgba(41,24,12,.05),0 0 0 1px rgba(41,24,12,.05);
+  --shadow-hover:0 2px 6px rgba(41,24,12,.06),0 10px 28px rgba(41,24,12,.08),0 0 0 1px rgba(41,24,12,.05);
+  --serif:"Fraunces",Georgia,"Times New Roman",serif;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ease:cubic-bezier(.22,.8,.24,1);
+  --gutter:max(20px,env(safe-area-inset-left));
+}
+@media (prefers-color-scheme:dark){:root{
+  color-scheme:dark;
+  --bg:#0f0d0c;--surface:#1a1715;--ink:#f5f1ec;--ink2:#d6d0c9;--muted:#a39b93;
+  --line:#2b2623;--line2:#221e1b;--accent:#d9463a;--accent-ink:#f08378;--accent-soft:#2c1815;
+  --check:#d9463a;--field:#221e1b;
+  --shadow:0 0 0 1px #2b2623;--shadow-hover:0 0 0 1px #3a332f,0 10px 28px rgba(0,0,0,.4);
+}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+.wrap{max-width:720px;margin:0 auto;padding:0 var(--gutter)}
+.view{animation:enter .45s var(--ease) both}
+@keyframes enter{from{opacity:0;transform:translateY(8px)}}
+
+/* ---------- Home ---------- */
+.home-head{padding:calc(40px + env(safe-area-inset-top)) 0 8px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink);margin:0 0 8px}
+.home-head h1{font:600 clamp(40px,11vw,56px)/1 var(--serif);letter-spacing:-.025em;margin:0}
+.home-head .sub{color:var(--muted);margin:12px 0 0;font-size:15px}
+.search{display:block;position:relative;margin:26px 0 20px}
+.search svg{position:absolute;left:14px;top:50%;width:18px;height:18px;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+.search input{width:100%;height:48px;border:0;border-radius:14px;background:var(--field);color:var(--ink);font:16px var(--sans);padding:0 16px 0 42px;outline:none;transition:box-shadow .2s,background-color .2s}
+.search input::placeholder{color:var(--muted)}
+.search input:focus{background:var(--surface);box-shadow:0 0 0 2px var(--accent)}
+.list{display:grid;gap:12px;padding-bottom:calc(48px + env(safe-area-inset-bottom))}
+.card{display:flex;gap:16px;align-items:flex-start;background:var(--surface);border-radius:20px;padding:16px;box-shadow:var(--shadow);transition:box-shadow .25s var(--ease),transform .2s var(--ease)}
+.card:active{transform:scale(.985)}
+@media (hover:hover){.card:hover{box-shadow:var(--shadow-hover)}}
+.tile{flex:none;width:60px;height:60px;border-radius:16px;display:grid;place-items:center;color:#fff;font:600 22px/1 var(--serif);letter-spacing:.01em;position:relative;overflow:hidden}
+.tile::after{content:"";position:absolute;inset:0;background:linear-gradient(155deg,rgba(255,255,255,.22),rgba(255,255,255,0) 55%,rgba(0,0,0,.18))}
+.card-body{flex:1;min-width:0}
+.card h2{font:600 19px/1.25 var(--serif);letter-spacing:-.01em;margin:0 0 3px}
+.card .blurb{color:var(--muted);font-size:14px;line-height:1.45;margin:0 0 8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.facts{display:flex;flex-wrap:wrap;gap:2px 12px;font-size:13px;color:var(--muted);margin:0;padding:0;list-style:none}
+.facts b{color:var(--ink2);font-weight:600}
+.arrow{flex:none;align-self:center;width:20px;height:20px;color:var(--muted);opacity:.6}
+.empty{text-align:center;color:var(--muted);padding:40px 0}
+
+/* ---------- Recipe ---------- */
+.bar{position:sticky;top:0;z-index:10;background:var(--bg);padding-top:env(safe-area-inset-top);border-bottom:1px solid transparent;transition:border-color .25s}
+.bar.stuck{border-bottom-color:var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:8px;height:56px}
+.back{display:inline-flex;align-items:center;gap:4px;height:40px;padding:0 12px 0 6px;margin-left:-6px;border-radius:12px;font-weight:600;font-size:15px;color:var(--accent-ink);transition:background-color .2s}
+.back:active{background:var(--field)}
+.back svg{width:22px;height:22px}
+.bar-title{flex:1;min-width:0;font:600 16px/1.2 var(--serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;opacity:0;transform:translateY(4px);transition:opacity .25s,transform .25s var(--ease)}
+.bar.stuck .bar-title{opacity:1;transform:none}
+.bar-spacer{width:84px;flex:none}
+.hero{padding:12px 0 4px}
+.hero .eyebrow{margin-bottom:10px}
+.hero h1{font:600 clamp(32px,8.5vw,44px)/1.08 var(--serif);letter-spacing:-.022em;margin:0 0 12px;text-wrap:balance}
+.hero .blurb{color:var(--ink2);font-size:17px;line-height:1.55;margin:0;text-wrap:pretty}
+.stats{display:grid;grid-template-columns:repeat(var(--n),1fr);margin:26px 0 0;background:var(--surface);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+.stat{padding:14px 16px;border-left:1px solid var(--line2)}
+@media (max-width:420px){.stat{padding:12px 12px}.stat .v{font-size:20px}}
+.stat:first-child{border-left:0}
+.stat .v{display:block;font:600 22px/1.15 var(--serif);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.stat .k{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.stats-note{font-size:12px;color:var(--muted);margin:8px 2px 0}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 0}
+.pill{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px;border-radius:999px;background:var(--field);color:var(--ink2);font-size:14px;font-weight:500;transition:background-color .2s,color .2s,transform .15s var(--ease)}
+.pill:active{transform:scale(.97)}
+.pill svg{width:17px;height:17px}
+.pill[aria-pressed=true]{background:var(--accent);color:#fff}
+section{margin-top:40px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 4px}
+.sec-head h2{font:600 24px/1.2 var(--serif);letter-spacing:-.015em;margin:0}
+.count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.progress{height:4px;border-radius:4px;background:var(--line);overflow:hidden;margin:10px 0 6px}
+.progress i{display:block;height:100%;width:0;background:var(--accent);border-radius:4px;transition:width .4s var(--ease)}
+.group{margin-top:18px}
+.group h3{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 2px}
+.items{list-style:none;margin:0;padding:0}
+.items li+li{border-top:1px solid var(--line2)}
+.items label{display:flex;gap:14px;align-items:flex-start;padding:11px 0;cursor:pointer;min-height:46px;line-height:1.5}
+input[type=checkbox]{appearance:none;-webkit-appearance:none;flex:none;width:22px;height:22px;margin:1px 0 0;border-radius:7px;border:1.5px solid var(--line);background:var(--surface) center/14px no-repeat;cursor:pointer;transition:background-color .2s var(--ease),border-color .2s,transform .2s var(--ease)}
+@media (prefers-color-scheme:light){input[type=checkbox]{border-color:#d6cdc4}}
+input[type=checkbox]:checked{background-color:var(--check);border-color:var(--check);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+input[type=checkbox]:active{transform:scale(.9)}
+input[type=checkbox]+span{text-decoration:line-through;text-decoration-color:transparent;transition:color .25s,text-decoration-color .25s}
 input[type=checkbox]:checked+span{color:var(--muted);text-decoration-color:currentColor}
-ol.steps{margin:0;padding:0;list-style:none;counter-reset:s}
-ol.steps li{counter-increment:s;position:relative;padding:14px 0 14px 48px;cursor:pointer;transition:color .3s,opacity .3s;user-select:none;-webkit-user-select:none}
-ol.steps li+li{border-top:1px solid var(--line)}
-ol.steps li::before{content:counter(s);position:absolute;left:0;top:14px;width:32px;height:32px;border-radius:50%;background:var(--chip);color:var(--red2);font-weight:700;display:grid;place-items:center;font-size:14px;transition:background-color .3s var(--ease),color .3s,transform .3s var(--ease)}
-ol.steps li.done{color:var(--muted)}
-ol.steps li.done::before{content:"✓";background:var(--red);color:#fff}
-ol.steps li.pop::before{animation:pop .35s var(--ease)}
-@keyframes pop{40%{transform:scale(1.18)}}
-ol.steps .t{font-weight:700;color:var(--ink);transition:color .3s}
-ol.steps li.done .t{color:var(--muted)}
-ol.steps b{font-weight:600;color:var(--red2)}
-ol.steps li.done b{color:inherit}
-.hint{font-size:13px;color:var(--muted);margin:0 0 2px}
-ul.tips{margin:0;padding-left:18px}
-ul.tips li{margin:6px 0}
-ul.tips li::marker{color:var(--red2)}
-.reset{margin-top:20px;background:var(--chip);color:var(--muted)}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.hint{font-size:13px;color:var(--muted);margin:0}
+.steps{list-style:none;margin:8px 0 0;padding:0;counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding:18px 0 18px 52px;cursor:pointer;user-select:none;-webkit-user-select:none;color:var(--ink2);line-height:1.65;transition:color .25s}
+.steps li+li{border-top:1px solid var(--line2)}
+.steps li::before{content:counter(s);position:absolute;left:0;top:16px;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);color:var(--ink);font:600 15px/1 var(--serif);display:grid;place-items:center;transition:background-color .25s var(--ease),border-color .25s,color .25s}
+.steps .t{display:block;font-weight:600;color:var(--ink);margin-bottom:2px;transition:color .25s}
+.steps b{font-weight:600;color:var(--ink)}
+.steps li.done{color:var(--muted)}
+.steps li.done .t,.steps li.done b{color:var(--muted)}
+.steps li.done::before{content:"";background:var(--check) center/16px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");border-color:var(--check)}
+.steps li.pop::before{animation:pop .35s var(--ease)}
+@keyframes pop{40%{transform:scale(1.15)}}
+.tips{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px}
+.tips li{background:var(--surface);box-shadow:var(--shadow);border-radius:14px;padding:13px 16px 13px 44px;position:relative;color:var(--ink2);font-size:15px;line-height:1.55}
+.tips li::before{content:"";position:absolute;left:16px;top:17px;width:16px;height:16px;background:var(--accent-ink);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z'/%3E%3C/svg%3E") center/contain no-repeat}
+.foot{display:flex;justify-content:center;padding:40px 0 calc(48px + env(safe-area-inset-bottom))}
+@media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<header><div class="wrap">
-<h1>Cooking Recipes</h1>
-<p id="count"></p>
-<div class="tools"><button id="openAll" type="button">Expand all</button><button id="closeAll" type="button">Collapse all</button></div>
-</div></header>
-<main><div class="wrap" id="list"></div></main>
+<div id="app"></div>
+<script>window.APP_V="1795459427"</script>
+<script src="recipes.js?v=1795459427"></script>
 <script>
 {
-const R=[
-{id:"honey-chipotle",tag:"MC",name:"Honey Chipotle Chicken Mac n Cheese",serves:5,
- macros:[["651","cal"],["61g","protein"],["54g","carbs"],["22g","fat"]],
- groceries:[
-  ["Meat",["Boneless skinless chicken thighs, about 2.5 lb (or about 4 lb bone-in to debone yourself)"]],
-  ["Dairy",["Light butter (about 4½ tbsp total)","Fat-free evaporated milk, 1 can (12 oz), or skim milk","Light cream cheese, 1 block (8 oz)","Reduced-fat shredded cheddar, 1 bag (8 oz)"]],
-  ["Produce",["Fresh parsley, 1 bunch"]],
-  ["Pantry",["Elbow macaroni, 1 box (1 lb)","Cholula Chipotle hot sauce, 2 bottles","Honey","Jarred minced garlic","Olive oil"]],
-  ["Spices (check what you have)",["Salt","Dried oregano","Smoked paprika","Garlic powder","Onion powder","Ground cumin"]]],
- steps:[
-  ["Prep the chicken","Trim the fat off **2.4 lb chicken thighs** and cut them into about 1.5-inch cubes. Bigger cubes stay juicier."],
-  ["Season it","In a bowl, toss the chicken with **2 tsp salt**, **1 tbsp dried oregano**, **2½ tsp smoked paprika**, **2½ tsp garlic powder**, **1½ tsp cumin** and **1 tbsp olive oil**. Let it sit while you start the pasta."],
-  ["Boil the pasta","Bring a big pot of salted water to a boil. Cook **9 oz macaroni** (just over 2 cups dry) for 8 minutes, drain, and set aside in the pot."],
-  ["Sear the chicken","Melt **3 tbsp light butter** in a large pan over medium heat. Spread the chicken in one layer (two batches if crowded) and cook about 5 minutes per side until golden and crispy. Pull it as soon as it's golden."],
-  ["Glaze it","Turn the heat to low. Add a little more butter if the pan is dry, then **2 tbsp minced garlic**, **2½ tbsp honey**, **6½ tbsp Cholula Chipotle** (a little under ½ cup) and **a handful of chopped parsley**. Stir until coated, then move the chicken to a plate."],
-  ["Toast the spices","Same pan, still on low. Melt **1½ tbsp light butter** and add **1½ tsp garlic powder**, **1½ tsp onion powder**, **1½ tsp smoked paprika** and **1 tsp salt**. Stir about 30 seconds. Leave them in the pan, and have the milk ready so they don't burn."],
-  ["Make the cheese sauce","Pour **1¼ cups fat-free evaporated milk** right in on the spices, then **6½ tbsp Cholula Chipotle** and **6 oz light cream cheese** (¾ of the block). Stir until smooth, then stir in **a scant 1 cup shredded cheddar** until creamy. Keep the heat low so it doesn't split."],
-  ["Combine","Pour the sauce into the pot with the macaroni (off the heat or on very low), add **a handful of chopped parsley**, and stir until silky. Add a splash of milk if it's too thick."],
-  ["Portion","Split the mac into 5 containers and top each with the chicken. Let them cool before putting the lids on and refrigerating."]],
- tips:["Reheat with a splash of water or milk, loosely covered, on medium power, stirring halfway.","Keeps about 4 days in the fridge."]},
-{id:"lo-mein",tag:"LM",name:"High-Protein Chicken Lo Mein",serves:5,
- macros:[["~620","cal"],["~50g","protein"]],
- groceries:[
-  ["Meat & eggs",["Chicken breast, 1.75 lb","Eggs, 1 dozen (you need 10)"]],
-  ["Frozen",["Mixed frozen veggies, 1 bag (about 10.5 oz)"]],
-  ["Pasta",["Spaghetti (1 lb box) or lo mein noodles (2 packs, 8 oz each)"]],
-  ["Pantry & sauces",["Regular soy sauce (low-sodium if you want)","Dark soy sauce","Oyster sauce","Sesame oil","Avocado oil","Sriracha (Sriracha Hot Chili Sauce, not sweet chili sauce)","Honey or brown sugar","Garlic powder","Rice vinegar (optional)"]]],
- steps:[
-  ["Marinate the chicken","Cut **1.75 lb chicken breast** into bite-size cubes. Mix with **1 tbsp garlic powder**, **2 tbsp soy sauce**, **1 tbsp avocado oil** and **1 tbsp sriracha**. Let it sit about 10 minutes."],
-  ["Mix the sauce","In a cup, stir together **4 tbsp regular soy sauce**, **1½ tbsp dark soy sauce**, **3 tbsp oyster sauce**, **2 tbsp sesame oil**, **1 tbsp honey or brown sugar**, **1 tsp garlic powder** and **1 tsp rice vinegar**. Set it aside."],
-  ["Boil the noodles","Cook **10.5 oz dry noodles** in salted water 1 minute less than the package says. Drain, rinse under cold water, and toss with **1 tbsp sesame oil**."],
-  ["Scramble the eggs first","Whisk **10 eggs**. Heat a large nonstick pan over medium with a little of **2 tsp avocado oil**. Push the eggs into big, soft curds and take them out while slightly wet."],
-  ["Sear the chicken","Medium-high heat, the rest of the pan oil. Add half the chicken in one layer, leave it 2–3 minutes to brown, then flip and cook to 165°F. Move to the plate and repeat."],
-  ["Cook the veggies","Add **10.5 oz frozen veggies** to the same pan and cook, stirring, until hot and any water cooks off, about 4 minutes."],
-  ["Caramelize the noodles","Heat to high. Add the noodles and about half the sauce. Toss, then let them sit untouched 30–60 seconds so the sauce darkens. Toss and repeat once."],
-  ["Combine everything","Add the chicken and eggs back with the rest of the sauce. Toss 1–2 minutes until coated and hot. Add a splash of water if it looks dry."],
-  ["Portion it out","Split evenly into 5 containers. Let them cool a bit before sealing and refrigerating."]],
- tips:["Too salty? Switch the regular soy sauce to low-sodium and keep the dark soy for color.","Boil the noodles while the chicken marinates to save time.","Keeps about 4 days in the fridge."]}
-];
-const store={get(k){try{return JSON.parse(localStorage.getItem(k))||{}}catch(e){return {}}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-const S=store.get("recipeChecks"),O=store.get("recipeOpen");
-const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-const md=t=>t.replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");
-const chev='<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-document.getElementById("count").textContent=R.length+" recipes · tap one to open it";
-const list=document.getElementById("list");
-list.innerHTML=R.map(r=>`
-<details class="card${O[r.id]?" is-open":""}" id="${r.id}"${O[r.id]?" open":""}>
-<summary><span class="dot">${r.tag||r.name[0]}</span><span class="sum"><h2>${r.name}</h2><span class="meta">${r.serves} servings · ${r.macros.map(m=>m.join(" ")).slice(0,2).join(" · ")}</span></span>${chev}</summary>
-<div class="body"><div class="inner">
-<div class="macros">${r.macros.map(m=>`<span><b>${m[0]}</b> ${m[1]}</span>`).join("")}</div>
-<h3>Grocery list</h3>
-${r.groceries.map((g,gi)=>`<h4>${g[0]}</h4><ul class="groc">${g[1].map((it,ii)=>{const k=`${r.id}:g${gi}-${ii}`;return `<li><label><input type="checkbox" data-k="${k}"${S[k]?" checked":""}><span>${it}</span></label></li>`}).join("")}</ul>`).join("")}
-<h3>Step by step</h3>
-<p class="hint">Tap a step to mark it done.</p>
-<ol class="steps">${r.steps.map((s,i)=>{const k=`${r.id}:s${i}`;return `<li data-k="${k}" class="${S[k]?"done":""}" tabindex="0"><span class="t">${s[0]}.</span> ${md(s[1])}</li>`}).join("")}</ol>
-<h3>Tips</h3>
-<ul class="tips">${r.tips.map(t=>`<li>${t}</li>`).join("")}</ul>
-<button class="reset" type="button" data-r="${r.id}">Clear checkmarks</button>
-</div></div></details>`).join("");
-const saveOpen=d=>{O[d.id]=d.classList.contains("is-open");store.set("recipeOpen",O)};
-const setOpen=(d,open)=>{
-  if(d.classList.contains("is-open")===open)return;
-  const body=d.querySelector(".body");
-  if(d._a){d._a.cancel();d._a=null}
-  d.classList.toggle("is-open",open);saveOpen(d);
-  if(reduce||!body.animate){d.open=open;return}
-  if(open){
-    d.open=true;const h=body.scrollHeight;
-    d._a=body.animate([{height:"0px",opacity:0,transform:"translateY(-6px)"},{height:h+"px",opacity:1,transform:"none"}],{duration:420,easing:"cubic-bezier(.22,.8,.24,1)"});
-  }else{
-    const h=body.offsetHeight;
-    d._a=body.animate([{height:h+"px",opacity:1},{height:"0px",opacity:0}],{duration:320,easing:"cubic-bezier(.4,0,.2,1)",fill:"forwards"});
-    d._a.onfinish=()=>{d.open=false;d._a&&d._a.cancel();d._a=null};
-  }
+const R = window.RECIPES || [];
+const app = document.getElementById("app");
+const store = {
+  get(k){try{return JSON.parse(localStorage.getItem(k))||{}}catch(e){return {}}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 };
-list.addEventListener("click",e=>{
-  const sm=e.target.closest("summary");if(sm){e.preventDefault();const d=sm.parentElement;setOpen(d,!d.classList.contains("is-open"));return}
-  const li=e.target.closest("ol.steps li");if(li){toggleStep(li);return}
-  const b=e.target.closest(".reset");if(b){const id=b.dataset.r;for(const k of Object.keys(S))if(k.startsWith(id+":"))delete S[k];store.set("recipeChecks",S);
-    const card=document.getElementById(id);card.querySelectorAll("input[type=checkbox]").forEach(c=>c.checked=false);card.querySelectorAll("li.done").forEach(l=>l.classList.remove("done"))}});
-list.addEventListener("change",e=>{const k=e.target.dataset.k;if(!k)return;S[k]=e.target.checked;store.set("recipeChecks",S)});
-function toggleStep(li){const k=li.dataset.k;S[k]=!S[k];li.classList.toggle("done",S[k]);li.classList.remove("pop");void li.offsetWidth;if(S[k])li.classList.add("pop");store.set("recipeChecks",S)}
-list.addEventListener("keydown",e=>{const li=e.target.closest("ol.steps li");if(li&&(e.key==="Enter"||e.key===" ")){e.preventDefault();toggleStep(li)}});
-const cards=[...document.querySelectorAll("details.card")];
-document.getElementById("openAll").addEventListener("click",()=>cards.forEach((d,i)=>setTimeout(()=>setOpen(d,true),i*60)));
-document.getElementById("closeAll").addEventListener("click",()=>cards.forEach(d=>setOpen(d,false)));
-const APP_V="1795458651";
-const checkUpdate=()=>fetch("version.json?t="+Date.now(),{cache:"no-store"}).then(r=>r.json()).then(j=>{if(j.v&&j.v!==APP_V&&!location.search.includes("v="+j.v))location.replace(location.pathname+"?v="+j.v)}).catch(()=>{});
-checkUpdate();document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
+const S = store.get("recipeChecks");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const md = t => esc(t).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+const PALETTE = ["#b8261c","#9a5b13","#3f6b2a","#1f5f8b","#7a2e5c","#0f6b63","#5b3fa0"];
+const colorOf = (r,i) => r.color || PALETTE[i % PALETTE.length];
+const tagOf = r => r.tag || r.name.split(/\s+/).filter(w=>/^[A-Za-z]/.test(w)).slice(0,2).map(w=>w[0]).join("").toUpperCase();
+const MACROS = [["cal","Calories"],["protein","Protein"],["carbs","Carbs"],["fat","Fat"]];
+const icon = {
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
+  arrow:'<svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>',
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>',
+  sun:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
+  reset:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>'
+};
+
+/* ---------- Home ---------- */
+let homeScroll = 0, query = "", fromHome = false;
+function renderHome(){
+  document.title = "Recipes";
+  app.innerHTML = `<div class="view">
+  <div class="wrap">
+    <header class="home-head">
+      <p class="eyebrow">Meal prep cookbook</p>
+      <h1>Recipes</h1>
+      <p class="sub">${R.length} recipe${R.length===1?"":"s"} · grocery lists and step-by-step instructions</p>
+    </header>
+    <label class="search">${icon.search}<input id="q" type="search" placeholder="Search recipes or ingredients" autocomplete="off" value="${esc(query)}" aria-label="Search recipes"></label>
+    <div class="list" id="list"></div>
+  </div></div>`;
+  const q = document.getElementById("q");
+  q.addEventListener("input", () => { query = q.value; drawList(); });
+  drawList();
+  requestAnimationFrame(() => scrollTo(0, homeScroll));
+}
+function drawList(){
+  const terms = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
+  const hits = R.map((r,i)=>[r,i]).filter(([r]) => {
+    if(!terms.length) return true;
+    const hay = [r.name, r.blurb||"", ...r.groceries.flatMap(g=>[g[0],...g[1]])].join(" ").toLowerCase();
+    return terms.every(t => hay.includes(t));
+  });
+  document.getElementById("list").innerHTML = hits.length ? hits.map(([r,i]) => {
+    const m = r.macros||{};
+    const facts = [`<b>${r.serves}</b> servings`, m.cal && `<b>${esc(m.cal)}</b> cal`, m.protein && `<b>${esc(m.protein)}</b> protein`].filter(Boolean);
+    return `<a class="card" href="#/${r.id}" data-id="${r.id}">
+      <span class="tile" style="background:${colorOf(r,i)}" aria-hidden="true">${esc(tagOf(r))}</span>
+      <span class="card-body">
+        <h2>${esc(r.name)}</h2>
+        ${r.blurb?`<p class="blurb">${esc(r.blurb)}</p>`:""}
+        <ul class="facts">${facts.map(f=>`<li>${f}</li>`).join("")}</ul>
+      </span>${icon.arrow}</a>`;
+  }).join("") : `<p class="empty">No recipes match “${esc(query)}”.</p>`;
+}
+
+/* ---------- Recipe ---------- */
+let wakeLock = null, wantWake = false, barObserver = null;
+function renderRecipe(r){
+  document.title = r.name + " · Recipes";
+  const m = r.macros||{};
+  const stats = MACROS.filter(([k])=>m[k]).map(([k,l])=>[k,l,m[k]]);
+  const nGroc = r.groceries.reduce((a,g)=>a+g[1].length,0);
+  app.innerHTML = `<div class="view">
+  <div class="bar" id="bar"><div class="wrap">
+    <a class="back" href="#" id="back">${icon.back}Recipes</a>
+    <div class="bar-title" aria-hidden="true">${esc(r.name)}</div>
+    <div class="bar-spacer"></div>
+  </div></div>
+  <div class="wrap">
+    <header class="hero">
+      <p class="eyebrow">Serves ${esc(r.serves)}</p>
+      <h1 id="title">${esc(r.name)}</h1>
+      ${r.blurb?`<p class="blurb">${esc(r.blurb)}</p>`:""}
+      ${stats.length?`<div class="stats" style="--n:${stats.length}">${stats.map(([,l,v])=>`<div class="stat"><span class="v">${esc(v)}</span><span class="k">${l}</span></div>`).join("")}</div>`:""}
+      ${stats.length?`<p class="stats-note">Nutrition is per serving.</p>`:""}
+      <div class="actions">
+        ${"wakeLock" in navigator?`<button class="pill" id="wake" type="button" aria-pressed="false">${icon.sun}Keep screen on</button>`:""}
+        <button class="pill" id="reset" type="button">${icon.reset}Clear checkmarks</button>
+      </div>
+    </header>
+
+    <section aria-labelledby="h-groc">
+      <div class="sec-head"><h2 id="h-groc">Groceries</h2><span class="count" id="c-groc"></span></div>
+      <div class="progress"><i id="p-groc"></i></div>
+      ${r.groceries.map((g,gi)=>`<div class="group"><h3>${esc(g[0])}</h3><ul class="items">${g[1].map((it,ii)=>{const k=`${r.id}:g${gi}-${ii}`;return `<li><label><input type="checkbox" data-k="${k}"${S[k]?" checked":""}><span>${esc(it)}</span></label></li>`}).join("")}</ul></div>`).join("")}
+    </section>
+
+    <section aria-labelledby="h-steps">
+      <div class="sec-head"><h2 id="h-steps">Steps</h2><span class="count" id="c-steps"></span></div>
+      <div class="progress"><i id="p-steps"></i></div>
+      <p class="hint">Tap a step to mark it done.</p>
+      <ol class="steps">${r.steps.map((s,i)=>{const k=`${r.id}:s${i}`;return `<li data-k="${k}" class="${S[k]?"done":""}" tabindex="0" role="checkbox" aria-checked="${!!S[k]}"><span class="t">${esc(s[0])}</span>${md(s[1])}</li>`}).join("")}</ol>
+    </section>
+
+    ${r.tips&&r.tips.length?`<section aria-labelledby="h-tips"><div class="sec-head"><h2 id="h-tips">Tips</h2></div><ul class="tips">${r.tips.map(t=>`<li>${md(t)}</li>`).join("")}</ul></section>`:""}
+    <div class="foot"><a class="pill" href="#" id="back2">${icon.back}All recipes</a></div>
+  </div></div>`;
+  scrollTo(0,0);
+
+  const view = app.firstElementChild;
+  const progress = () => {
+    const g = view.querySelectorAll(".items input"), gc = [...g].filter(c=>c.checked).length;
+    const s = view.querySelectorAll(".steps li"), sc = view.querySelectorAll(".steps li.done").length;
+    view.querySelector("#c-groc").textContent = `${gc} of ${g.length}`;
+    view.querySelector("#p-groc").style.width = (g.length?gc/g.length*100:0)+"%";
+    view.querySelector("#c-steps").textContent = `${sc} of ${s.length}`;
+    view.querySelector("#p-steps").style.width = (s.length?sc/s.length*100:0)+"%";
+  };
+  progress();
+
+  const toggleStep = li => {
+    const k = li.dataset.k; S[k] = !S[k];
+    li.classList.toggle("done", S[k]); li.setAttribute("aria-checked", S[k]);
+    li.classList.remove("pop"); void li.offsetWidth; if(S[k]) li.classList.add("pop");
+    store.set("recipeChecks", S); progress();
+  };
+  view.addEventListener("change", e => { const k=e.target.dataset.k; if(!k) return; S[k]=e.target.checked; store.set("recipeChecks",S); progress(); });
+  view.addEventListener("click", e => {
+    const li = e.target.closest(".steps li"); if(li) return toggleStep(li);
+    if(e.target.closest("#back,#back2")){ e.preventDefault(); goHome(); }
+  });
+  view.addEventListener("keydown", e => { const li=e.target.closest(".steps li"); if(li&&(e.key==="Enter"||e.key===" ")){ e.preventDefault(); toggleStep(li); } });
+  view.querySelector("#reset").addEventListener("click", () => {
+    for(const k of Object.keys(S)) if(k.startsWith(r.id+":")) delete S[k];
+    store.set("recipeChecks", S);
+    view.querySelectorAll(".items input").forEach(c=>c.checked=false);
+    view.querySelectorAll(".steps li").forEach(l=>{l.classList.remove("done");l.setAttribute("aria-checked","false")});
+    progress();
+  });
+  const wake = view.querySelector("#wake");
+  if(wake){ wake.addEventListener("click", () => setWake(!wantWake)); syncWake(); }
+
+  const bar = view.querySelector("#bar"), title = view.querySelector("#title");
+  if(barObserver) barObserver.disconnect();
+  if("IntersectionObserver" in window){
+    barObserver = new IntersectionObserver(([e]) => bar.classList.toggle("stuck", !e.isIntersecting), {rootMargin:"-64px 0px 0px 0px"});
+    barObserver.observe(title);
+  }
+}
+function syncWake(){ const b=document.getElementById("wake"); if(b) b.setAttribute("aria-pressed", String(!!wakeLock)); }
+async function setWake(on){
+  wantWake = on;
+  try{
+    if(on && !wakeLock){ wakeLock = await navigator.wakeLock.request("screen"); wakeLock.addEventListener("release", () => { wakeLock = null; syncWake(); }); }
+    else if(!on && wakeLock){ await wakeLock.release(); wakeLock = null; }
+  }catch(e){ wantWake = false; wakeLock = null; }
+  syncWake();
+}
+document.addEventListener("visibilitychange", () => { if(!document.hidden && wantWake && !wakeLock) setWake(true); });
+
+/* ---------- Routing ---------- */
+function goHome(){
+  if(fromHome){ history.back(); return; }
+  history.replaceState(null, "", location.pathname + location.search);
+  route();
+}
+function route(){
+  const id = decodeURIComponent(location.hash.replace(/^#\/?/, ""));
+  const r = R.find(x => x.id === id);
+  if(r){ renderRecipe(r); }
+  else { if(wantWake) setWake(false); fromHome = false; if(barObserver){barObserver.disconnect();barObserver=null} renderHome(); }
+}
+app.addEventListener("click", e => {
+  const a = e.target.closest("a.card"); if(!a) return;
+  homeScroll = scrollY; fromHome = true;
+});
+addEventListener("hashchange", route);
+if("scrollRestoration" in history) history.scrollRestoration = "manual";
+route();
+
+/* ---------- Auto-update when a new version is published ---------- */
+const checkUpdate = () => fetch("version.json?t="+Date.now(), {cache:"no-store"}).then(r=>r.json()).then(j => {
+  if(j.v && j.v !== window.APP_V && !location.search.includes("v="+j.v)) location.replace(location.pathname + "?v=" + j.v + location.hash);
+}).catch(()=>{});
+checkUpdate();
+document.addEventListener("visibilitychange", () => { if(!document.hidden) checkUpdate(); });
 }
 </script>
 </body>

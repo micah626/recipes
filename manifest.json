@@ -1,12 +1,14 @@
 {
-  "name": "Cooking Recipes",
+  "name": "Recipes",
   "short_name": "Recipes",
+  "description": "Meal prep recipes with grocery lists and step-by-step instructions.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#b8261c",
-  "theme_color": "#b8261c",
+  "background_color": "#faf8f5",
+  "theme_color": "#faf8f5",
   "icons": [
-    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
   ]
 }
