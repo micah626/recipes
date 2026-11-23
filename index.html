@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cooking Recipes</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Recipes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#b8261c">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: friendly, practical kitchen companion, readable mid-cook on a phone
+   IDEA: a recipe box: each recipe is a card you pull out (expand) and slide back (collapse)
+   PICTURE: the stack of recipe cards itself, under a chili-red header band
+   COLOUR and TYPE: chili red dominant, honey yellow support, white/near-black ground; Archivo 800 + 400
+   LAYOUT: one column up to 760px, header band full width, cards stacked, big tap targets */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#16110f);--ink:light-dark(#1d1714,#f4ece6);--muted:light-dark(#6d625b,#b5a79d);
+--card:light-dark(#fff,#211a17);--line:light-dark(#eadfd8,#3a2f2a);
+--red:#b8261c;--red2:light-dark(#b8261c,#e0574a);--honey:#f2b632;--honeysoft:light-dark(#fdf1d4,#3b2f15)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Archivo,system-ui,sans-serif;overflow-x:clip}
+header{background:var(--red);color:#fff;padding:calc(28px + env(safe-area-inset-top)) max(5vw,16px) 26px}
+.wrap{max-width:760px;margin:0 auto}
+h1{font-size:clamp(32px,7vw,44px);line-height:1.05;font-weight:800;margin:0 0 6px;text-wrap:balance}
+header p{margin:0 0 16px;color:#ffe1dc}
+.tools{display:flex;gap:10px;flex-wrap:wrap}
+button{font:600 15px/1 Archivo,system-ui,sans-serif;min-height:44px;padding:0 16px;border-radius:22px;cursor:pointer}
+header button{background:#fff;color:var(--red);border:0}
+header button.alt{background:transparent;color:#fff;border:2px solid #ffffff99}
+button:focus-visible,summary:focus-visible,label:focus-within{outline:3px solid var(--honey);outline-offset:2px}
+main{padding:20px max(5vw,12px) 48px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;margin:0 0 14px;box-shadow:0 2px 0 var(--line)}
+summary{list-style:none;cursor:pointer;padding:18px 18px;display:flex;gap:14px;align-items:center}
+summary::-webkit-details-marker{display:none}
+.dot{flex:none;width:44px;height:44px;border-radius:50%;background:var(--honey);display:grid;place-items:center;color:#3a2a05;font-weight:800;font-size:18px}
+.sum{flex:1}
+.sum h2{font-size:20px;line-height:1.2;margin:0 0 4px;font-weight:800}
+.meta{color:var(--muted);font-size:14px}
+.chev{flex:none;width:28px;height:28px;transition:transform .2s}
+details[open] .chev{transform:rotate(180deg)}
+.body{padding:0 18px 18px;border-top:1px solid var(--line)}
+.macros{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 4px}
+.macros span{background:var(--honeysoft);border-radius:10px;padding:6px 10px;font-size:14px;white-space:nowrap}
+.macros b{font-weight:800}
+h3{font-size:17px;font-weight:800;margin:22px 0 8px;color:var(--red2)}
+h4{font-size:14px;font-weight:600;color:var(--muted);margin:14px 0 2px}
+ul.groc{list-style:none;margin:0;padding:0}
+ul.groc label{display:flex;gap:12px;align-items:flex-start;padding:8px 0;cursor:pointer;min-height:44px}
+input[type=checkbox]{flex:none;width:22px;height:22px;margin:1px 0 0;accent-color:var(--red)}
+input:checked+span{text-decoration:line-through;color:var(--muted)}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s}
+ol.steps li{counter-increment:s;position:relative;padding:12px 0 12px 46px;border-bottom:1px solid var(--line);cursor:pointer}
+ol.steps li:last-child{border-bottom:0}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:12px;width:32px;height:32px;border-radius:50%;background:var(--red);color:#fff;font-weight:800;display:grid;place-items:center;font-size:15px}
+ol.steps li.done{color:var(--muted)}
+ol.steps li.done::before{content:"✓";background:var(--muted)}
+ol.steps .t{font-weight:800}
+.hint{font-size:13px;color:var(--muted);margin:2px 0 6px}
+ul.tips{margin:0;padding-left:20px}
+ul.tips li{margin:4px 0}
+.reset{margin-top:18px;background:transparent;color:var(--red2);border:2px solid var(--line)}
+@media (prefers-reduced-motion:reduce){.chev{transition:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>Cooking Recipes</h1>
+<p id="count"></p>
+<div class="tools"><button id="openAll" type="button">Expand all</button><button id="closeAll" class="alt" type="button">Collapse all</button></div>
+</div></header>
+<main><div class="wrap" id="list"></div></main>
+<script>
+{
+const R=[
+{id:"honey-chipotle",name:"Honey Chipotle Chicken Mac n Cheese",serves:5,
+ macros:[["651","cal"],["61g","protein"],["54g","carbs"],["22g","fat"]],
+ groceries:[
+  ["Meat",["Boneless skinless chicken thighs, about 2.5 lb (or about 4 lb bone-in to debone yourself)"]],
+  ["Dairy",["Light butter (about 4½ tbsp total)","Fat-free evaporated milk, 1 can (12 oz), or skim milk","Light cream cheese, 1 block (8 oz)","Reduced-fat shredded cheddar, 1 bag (8 oz)"]],
+  ["Produce",["Fresh parsley, 1 bunch"]],
+  ["Pantry",["Elbow macaroni, 1 box (1 lb)","Cholula Chipotle hot sauce, 2 bottles","Honey","Jarred minced garlic","Olive oil"]],
+  ["Spices (check what you have)",["Salt","Dried oregano","Smoked paprika","Garlic powder","Onion powder","Ground cumin"]]],
+ steps:[
+  ["Prep the chicken","Trim the fat off **2.4 lb chicken thighs** and cut them into about 1.5-inch cubes. Bigger cubes stay juicier."],
+  ["Season it","In a bowl, toss the chicken with **2 tsp salt**, **1 tbsp dried oregano**, **2½ tsp smoked paprika**, **2½ tsp garlic powder**, **1½ tsp cumin** and **1 tbsp olive oil**. Let it sit while you start the pasta."],
+  ["Boil the pasta","Bring a big pot of salted water to a boil. Cook **9 oz macaroni** (just over 2 cups dry) for 8 minutes, drain, and set aside in the pot."],
+  ["Sear the chicken","Melt **3 tbsp light butter** in a large pan over medium heat. Spread the chicken in one layer (two batches if crowded) and cook about 5 minutes per side until golden and crispy. Pull it as soon as it's golden."],
+  ["Glaze it","Turn the heat to low. Add a little more butter if the pan is dry, then **2 tbsp minced garlic**, **2½ tbsp honey**, **6½ tbsp Cholula Chipotle** (a little under ½ cup) and **a handful of chopped parsley**. Stir until coated, then move the chicken to a plate."],
+  ["Toast the spices","Same pan, still on low. Melt **1½ tbsp light butter** and add **1½ tsp garlic powder**, **1½ tsp onion powder**, **1½ tsp smoked paprika** and **1 tsp salt**. Stir about 30 seconds. Leave them in the pan, and have the milk ready so they don't burn."],
+  ["Make the cheese sauce","Pour **1¼ cups fat-free evaporated milk** right in on the spices, then **6½ tbsp Cholula Chipotle** and **6 oz light cream cheese** (¾ of the block). Stir until smooth, then stir in **a scant 1 cup shredded cheddar** until creamy. Keep the heat low so it doesn't split."],
+  ["Combine","Pour the sauce into the pot with the macaroni (off the heat or on very low), add **a handful of chopped parsley**, and stir until silky. Add a splash of milk if it's too thick."],
+  ["Portion","Split the mac into 5 containers and top each with the chicken. Let them cool before putting the lids on and refrigerating."]],
+ tips:["Reheat with a splash of water or milk, loosely covered, on medium power, stirring halfway.","Keeps about 4 days in the fridge."]},
+{id:"lo-mein",name:"High-Protein Chicken Lo Mein",serves:5,
+ macros:[["~620","cal"],["~50g","protein"]],
+ groceries:[
+  ["Meat & eggs",["Chicken breast, 1.75 lb","Eggs, 1 dozen (you need 10)"]],
+  ["Frozen",["Mixed frozen veggies, 1 bag (about 10.5 oz)"]],
+  ["Pasta",["Spaghetti (1 lb box) or lo mein noodles (2 packs, 8 oz each)"]],
+  ["Pantry & sauces",["Regular soy sauce (low-sodium if you want)","Dark soy sauce","Oyster sauce","Sesame oil","Avocado oil","Sriracha (Sriracha Hot Chili Sauce, not sweet chili sauce)","Honey or brown sugar","Garlic powder","Rice vinegar (optional)"]]],
+ steps:[
+  ["Marinate the chicken","Cut **1.75 lb chicken breast** into bite-size cubes. Mix with **1 tbsp garlic powder**, **2 tbsp soy sauce**, **1 tbsp avocado oil** and **1 tbsp sriracha**. Let it sit about 10 minutes."],
+  ["Mix the sauce","In a cup, stir together **4 tbsp regular soy sauce**, **1½ tbsp dark soy sauce**, **3 tbsp oyster sauce**, **2 tbsp sesame oil**, **1 tbsp honey or brown sugar**, **1 tsp garlic powder** and **1 tsp rice vinegar**. Set it aside."],
+  ["Boil the noodles","Cook **10.5 oz dry noodles** in salted water 1 minute less than the package says. Drain, rinse under cold water, and toss with **1 tbsp sesame oil**."],
+  ["Scramble the eggs first","Whisk **10 eggs**. Heat a large nonstick pan over medium with a little of **2 tsp avocado oil**. Push the eggs into big, soft curds and take them out while slightly wet."],
+  ["Sear the chicken","Medium-high heat, the rest of the pan oil. Add half the chicken in one layer, leave it 2–3 minutes to brown, then flip and cook to 165°F. Move to the plate and repeat."],
+  ["Cook the veggies","Add **10.5 oz frozen veggies** to the same pan and cook, stirring, until hot and any water cooks off, about 4 minutes."],
+  ["Caramelize the noodles","Heat to high. Add the noodles and about half the sauce. Toss, then let them sit untouched 30–60 seconds so the sauce darkens. Toss and repeat once."],
+  ["Combine everything","Add the chicken and eggs back with the rest of the sauce. Toss 1–2 minutes until coated and hot. Add a splash of water if it looks dry."],
+  ["Portion it out","Split evenly into 5 containers. Let them cool a bit before sealing and refrigerating."]],
+ tips:["Too salty? Switch the regular soy sauce to low-sodium and keep the dark soy for color.","Boil the noodles while the chicken marinates to save time.","Keeps about 4 days in the fridge."]}
+];
+const store={get(k){try{return JSON.parse(localStorage.getItem(k))||{}}catch(e){return {}}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const S=store.get("recipeChecks"),O=store.get("recipeOpen");
+const md=t=>t.replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");
+const chev='<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+document.getElementById("count").textContent=R.length+" recipes · tap one to open it";
+document.getElementById("list").innerHTML=R.map(r=>`
+<details class="card" id="${r.id}"${O[r.id]?" open":""}>
+<summary><span class="dot">${r.name[0]}</span><span class="sum"><h2>${r.name}</h2><span class="meta">${r.serves} servings · ${r.macros.map(m=>m.join(" ")).slice(0,2).join(" · ")} each</span></span>${chev}</summary>
+<div class="body">
+<div class="macros">${r.macros.map(m=>`<span><b>${m[0]}</b> ${m[1]}</span>`).join("")}</div>
+<h3>Grocery list</h3>
+${r.groceries.map((g,gi)=>`<h4>${g[0]}</h4><ul class="groc">${g[1].map((it,ii)=>{const k=`${r.id}:g${gi}-${ii}`;return `<li><label><input type="checkbox" data-k="${k}"${S[k]?" checked":""}><span>${it}</span></label></li>`}).join("")}</ul>`).join("")}
+<h3>Step by step</h3>
+<p class="hint">Tap a step to mark it done.</p>
+<ol class="steps">${r.steps.map((s,i)=>{const k=`${r.id}:s${i}`;return `<li data-k="${k}" class="${S[k]?"done":""}" tabindex="0"><span class="t">${s[0]}.</span> ${md(s[1])}</li>`}).join("")}</ol>
+<h3>Tips</h3>
+<ul class="tips">${r.tips.map(t=>`<li>${t}</li>`).join("")}</ul>
+<button class="reset" type="button" data-r="${r.id}">Clear checkmarks</button>
+</div></details>`).join("");
+const list=document.getElementById("list");
+list.addEventListener("change",e=>{const k=e.target.dataset.k;if(!k)return;S[k]=e.target.checked;store.set("recipeChecks",S)});
+const toggleStep=li=>{const k=li.dataset.k;S[k]=!S[k];li.classList.toggle("done",S[k]);store.set("recipeChecks",S)};
+list.addEventListener("click",e=>{
+  const li=e.target.closest("ol.steps li");if(li){toggleStep(li);return}
+  const b=e.target.closest(".reset");if(b){const id=b.dataset.r;for(const k of Object.keys(S))if(k.startsWith(id+":"))delete S[k];store.set("recipeChecks",S);
+    const card=document.getElementById(id);card.querySelectorAll("input[type=checkbox]").forEach(c=>c.checked=false);card.querySelectorAll("li.done").forEach(l=>l.classList.remove("done"))}});
+list.addEventListener("keydown",e=>{const li=e.target.closest("ol.steps li");if(li&&(e.key==="Enter"||e.key===" ")){e.preventDefault();toggleStep(li)}});
+document.querySelectorAll("details.card").forEach(d=>d.addEventListener("toggle",()=>{O[d.id]=d.open;store.set("recipeOpen",O)}));
+const all=open=>document.querySelectorAll("details.card").forEach(d=>d.open=open);
+document.getElementById("openAll").addEventListener("click",()=>all(true));
+document.getElementById("closeAll").addEventListener("click",()=>all(false));
+}
+</script>
+</body>
+</html>
