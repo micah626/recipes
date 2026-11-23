@@ -10,7 +10,7 @@ window.RECIPES = [
   color: "#b8261c",
   blurb: "Crispy, honey-chipotle glazed chicken over a smoky, creamy mac and cheese.",
   serves: 5,
-  time: "50 min",
+  time: { total: 50, scales: 30 },   // minutes; "scales" = the part that grows with servings (cubing, searing in batches, portioning)
   macros: { cal: "651", protein: "61g", carbs: "54g", fat: "22g" },
   choice: {                        // written for dark meat; how to switch to white meat
     label: "Chicken",
@@ -55,7 +55,7 @@ window.RECIPES = [
   color: "#9a5b13",
   blurb: "Saucy, caramelized noodles loaded with seared chicken, eggs and veggies.",
   serves: 5,
-  time: "40 min",
+  time: { total: 40, scales: 25 },   // cutting and searing the chicken in batches, eggs, portioning
   macros: { cal: "~620", protein: "~50g" },
   choice: {                        // written for white meat; how to switch to dark meat
     label: "Chicken",
@@ -100,7 +100,7 @@ window.RECIPES = [
   color: "#3f6b2a",
   blurb: "Taco-seasoned lean beef and red rice, wrapped with cheese and toasted shut.",
   serves: 6,
-  time: "45 min",
+  time: { total: 45, scales: 20 },   // chopping, browning beef, filling, rolling and toasting burritos
   macros: { cal: "583", protein: "51g", carbs: "57g", fat: "15g" },
   groceries: [
     ["Meat", ["Extra-lean ground beef (95% lean or leaner), **1.76 pounds**"]],
@@ -136,7 +136,7 @@ window.RECIPES = [
   color: "#7a2e5c",
   blurb: "A hollowed-out round loaf layered with meat sauce, noodles and cheese, baked under garlic butter.",
   serves: 8,
-  time: "1 hr 5 min",
+  time: { total: 65, scales: 15 },   // hollowing and layering each loaf; extra loaves bake at the same time
   macros: { cal: "~650", protein: "~30g", carbs: "~54g", fat: "~33g" },
   choice: {                        // written with extra mozzarella; how to switch to a ricotta filling
     label: "Cheese layer",

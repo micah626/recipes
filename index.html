@@ -161,8 +161,8 @@ input[type=checkbox]:checked+span{color:var(--muted);text-decoration-color:curre
 </head>
 <body>
 <div id="app"></div>
-<script>window.APP_V="1795470270"</script>
-<script src="recipes.js?v=1795470270"></script>
+<script>window.APP_V="1795471245"</script>
+<script src="recipes.js?v=1795471245"></script>
 <script>
 {
 const R = window.RECIPES || [];
@@ -215,7 +215,7 @@ function drawList(){
   });
   document.getElementById("list").innerHTML = hits.length ? hits.map(([r,i]) => {
     const m = r.macros||{};
-    const facts = [r.time && `<b>${esc(r.time)}</b>`, m.cal && `<b>${esc(m.cal)}</b> cal`, m.protein && `<b>${esc(m.protein)}</b> protein`].filter(Boolean);
+    const facts = [r.time && `<b>${esc(timeFor(r))}</b>`, m.cal && `<b>${esc(m.cal)}</b> cal`, m.protein && `<b>${esc(m.protein)}</b> protein`].filter(Boolean);
     return `<a class="card" href="#/${r.id}" data-id="${r.id}">
       <span class="tile" style="background:${colorOf(r,i)}" aria-hidden="true">${esc(tagOf(r))}</span>
       <span class="card-body">
@@ -240,7 +240,7 @@ function renderRecipe(r){
   </div></div>
   <div class="wrap">
     <header class="hero">
-      ${r.time?`<p class="ready">${icon.clock}Ready in about ${esc(r.time)}</p>`:""}
+      ${r.time?`<p class="ready" id="ready"></p>`:""}
       <h1 id="title">${esc(r.name)}</h1>
       ${r.blurb?`<p class="blurb">${esc(r.blurb)}</p>`:""}
       <div id="statsBox"></div>
@@ -342,6 +342,8 @@ function renderRecipe(r){
     const stepHTML = r.steps.map(s => md(txt(s[1])));
     const f = serv / base;
     view.querySelector("#sv").textContent = serv;
+    const rd = view.querySelector("#ready");
+    if(rd) rd.innerHTML = `${icon.clock}Ready in about ${esc(timeFor(r, f))}${f === 1 ? "" : ` for ${serv} serving${serv === 1 ? "" : "s"}`}`;
     view.querySelector("#sv-l").textContent = serv === 1 ? "serving" : "servings";
     view.querySelector('[data-d="-1"]').disabled = serv <= 1;
     view.querySelector('[data-d="1"]').disabled = serv >= maxServ;
@@ -384,6 +386,10 @@ async function setWake(on){
 }
 document.addEventListener("visibilitychange", () => { if(!document.hidden && wantWake && !wakeLock) setWake(true); });
 
+// Total time: { total, scales } in minutes. The "scales" part grows or shrinks with servings (but a small batch
+// is never faster than half of it); the rest (baking, simmering, boiling water) stays the same.
+const fmtMin = m => { m = Math.max(5, Math.round(m / 5) * 5); const h = Math.floor(m / 60), r = m % 60; return h ? `${h} hr${r ? " " + r + " min" : ""}` : `${m} min`; };
+const timeFor = (r, f = 1) => typeof r.time === "string" ? r.time : fmtMin(r.time.total - r.time.scales + r.time.scales * Math.max(f, .5));
 const fmtTime = t => t.replace(/(\d+)\s*h\b/g, "$1 hr").replace(/(\d+)\s*m\b/g, "$1 min").replace(/(\d+)\s*s\b/g, "$1 sec");
 
 /* ---------- Scaling ---------- */

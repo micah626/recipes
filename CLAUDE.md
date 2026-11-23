@@ -24,7 +24,7 @@ Append an object to `window.RECIPES` in `recipes.js`:
   color: "#1f5f8b",                // tile color (optional; pick one not used by the other recipes)
   blurb: "One short sentence describing the dish.",
   serves: 5,
-  time: "45 min",                  // total time until it's ready; shown at the top and on the home card
+  time: { total: 45, scales: 20 }, // minutes until it's ready; "scales" is the part that grows with servings
   macros: { cal: "650", protein: "60g", carbs: "50g", fat: "20g" },  // per serving; include only what's known, "~" ok
   groceries: [                     // grouped shopping list: [group name, [items]]
     ["Meat", ["Chicken thighs, 2.5 lb"]],
@@ -93,6 +93,9 @@ the chicken per serving; carbs don't change. The pick is remembered per recipe (
 
 If the owner doesn't give a total time, estimate one from the steps (count hands-on prep like chopping, and don't add
 up steps that happen at the same time, e.g. "while the rice cooks"), round to 5 minutes, and tell them it's an estimate.
+Then split it: `scales` is the work that grows with the amount (chopping, searing in batches, filling/rolling,
+portioning); the rest stays fixed (boiling water, simmering, baking). The page shows
+total - scales + scales x (servings / base servings), never using less than half of `scales`, rounded to 5 minutes.
 
 When the owner pastes an ingredient list rather than a shopping list, build the grocery list from it: group by store
 section, keep their amounts, and combine an ingredient used twice into one "total" line (e.g. garlic powder 2 + 0.5 tsp).
