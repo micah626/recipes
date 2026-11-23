@@ -10,6 +10,7 @@ window.RECIPES = [
   color: "#b8261c",
   blurb: "Crispy, honey-chipotle glazed chicken over a smoky, creamy mac and cheese.",
   serves: 5,
+  time: "50 min",
   macros: { cal: "651", protein: "61g", carbs: "54g", fat: "22g" },
   groceries: [
     ["Meat", ["Boneless skinless chicken thighs, about **2.5 lb** (or about 4 lb bone-in to debone yourself)"]],
@@ -41,6 +42,7 @@ window.RECIPES = [
   color: "#9a5b13",
   blurb: "Saucy, caramelized noodles loaded with seared chicken, eggs and veggies.",
   serves: 5,
+  time: "40 min",
   macros: { cal: "~620", protein: "~50g" },
   groceries: [
     ["Meat & eggs", ["Chicken breast, **1.75 lb**", "Eggs, {1 dozen|10/12} (you need **10**)"]],
@@ -72,6 +74,7 @@ window.RECIPES = [
   color: "#3f6b2a",
   blurb: "Taco-seasoned lean beef and red rice, wrapped with cheese and toasted shut.",
   serves: 6,
+  time: "45 min",
   macros: { cal: "583", protein: "51g", carbs: "57g", fat: "15g" },
   groceries: [
     ["Meat", ["Extra-lean ground beef (95% lean or leaner), **1.76 pounds**"]],

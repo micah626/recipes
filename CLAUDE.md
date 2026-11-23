@@ -24,6 +24,7 @@ Append an object to `window.RECIPES` in `recipes.js`:
   color: "#1f5f8b",                // tile color (optional; pick one not used by the other recipes)
   blurb: "One short sentence describing the dish.",
   serves: 5,
+  time: "45 min",                  // total time until it's ready; shown at the top and on the home card
   macros: { cal: "650", protein: "60g", carbs: "50g", fat: "20g" },  // per serving; include only what's known, "~" ok
   groceries: [                     // grouped shopping list: [group name, [items]]
     ["Meat", ["Chicken thighs, 2.5 lb"]],
@@ -60,6 +61,9 @@ At the original servings everything displays exactly as written, without the mar
 
 Tile colors already in use: `#b8261c` (red), `#9a5b13` (amber), `#3f6b2a` (green). Other good ones: `#1f5f8b` blue,
 `#7a2e5c` plum, `#0f6b63` teal, `#5b3fa0` violet.
+
+If the owner doesn't give a total time, estimate one from the steps (count hands-on prep like chopping, and don't add
+up steps that happen at the same time, e.g. "while the rice cooks"), round to 5 minutes, and tell them it's an estimate.
 
 When the owner pastes an ingredient list rather than a shopping list, build the grocery list from it: group by store
 section, keep their amounts, and combine an ingredient used twice into one "total" line (e.g. garlic powder 2 + 0.5 tsp).

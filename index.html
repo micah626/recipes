@@ -82,6 +82,8 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .bar.stuck .bar-title{opacity:1;transform:none}
 .bar-spacer{width:84px;flex:none}
 .hero{padding:12px 0 4px}
+.ready{display:inline-flex;align-items:center;gap:6px;margin:0 0 12px;padding:5px 12px 5px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);font-size:13px;font-weight:600}
+.ready svg{width:15px;height:15px}
 .serv-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:22px 0 0}
 .serv{display:inline-flex;align-items:center;gap:2px;background:var(--surface);box-shadow:var(--shadow);border-radius:999px;padding:4px}
 .sv-btn{width:36px;height:36px;border-radius:50%;background:var(--field);color:var(--ink);display:grid;place-items:center;transition:transform .15s var(--ease),opacity .2s}
@@ -153,8 +155,8 @@ input[type=checkbox]:checked+span{color:var(--muted);text-decoration-color:curre
 </head>
 <body>
 <div id="app"></div>
-<script>window.APP_V="1795468136"</script>
-<script src="recipes.js?v=1795468136"></script>
+<script>window.APP_V="1795468225"</script>
+<script src="recipes.js?v=1795468225"></script>
 <script>
 {
 const R = window.RECIPES || [];
@@ -207,7 +209,7 @@ function drawList(){
   });
   document.getElementById("list").innerHTML = hits.length ? hits.map(([r,i]) => {
     const m = r.macros||{};
-    const facts = [`<b>${r.serves}</b> servings`, m.cal && `<b>${esc(m.cal)}</b> cal`, m.protein && `<b>${esc(m.protein)}</b> protein`].filter(Boolean);
+    const facts = [r.time && `<b>${esc(r.time)}</b>`, m.cal && `<b>${esc(m.cal)}</b> cal`, m.protein && `<b>${esc(m.protein)}</b> protein`].filter(Boolean);
     return `<a class="card" href="#/${r.id}" data-id="${r.id}">
       <span class="tile" style="background:${colorOf(r,i)}" aria-hidden="true">${esc(tagOf(r))}</span>
       <span class="card-body">
@@ -233,6 +235,7 @@ function renderRecipe(r){
   </div></div>
   <div class="wrap">
     <header class="hero">
+      ${r.time?`<p class="ready">${icon.clock}Ready in about ${esc(r.time)}</p>`:""}
       <h1 id="title">${esc(r.name)}</h1>
       ${r.blurb?`<p class="blurb">${esc(r.blurb)}</p>`:""}
       ${stats.length?`<div class="stats" style="--n:${stats.length}">${stats.map(([,l,v])=>`<div class="stat"><span class="v">${esc(v)}</span><span class="k">${l}</span></div>`).join("")}</div>`:""}
