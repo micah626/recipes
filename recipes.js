@@ -12,12 +12,17 @@ window.RECIPES = [
   serves: 5,
   time: "50 min",
   macros: { cal: "651", protein: "61g", carbs: "54g", fat: "22g" },
-  chicken: {                       // written for dark meat; how to switch it to white meat
+  choice: {                        // written for dark meat; how to switch to white meat
+    label: "Chicken",
     base: "dark",
-    white: {
-      replace: [["chicken thighs", "chicken breasts"], [" (or about 4 lb bone-in to debone yourself)", ""]],
-      macros: { cal: "~646", protein: "~67g", carbs: "54g", fat: "~19g" },
-      tip: "Breast dries out faster than thighs, so pull it the moment it's golden and cooked through (165°F)."
+    options: {
+      dark: { name: "Dark meat" },
+      white: {
+        name: "White meat",
+        replace: [["chicken thighs", "chicken breasts"], [" (or about 4 lb bone-in to debone yourself)", ""]],
+        macros: { cal: "~646", protein: "~67g", carbs: "54g", fat: "~19g" },
+        tip: "Breast dries out faster than thighs, so pull it the moment it's golden and cooked through (165°F)."
+      }
     }
   },
   groceries: [
@@ -52,12 +57,17 @@ window.RECIPES = [
   serves: 5,
   time: "40 min",
   macros: { cal: "~620", protein: "~50g" },
-  chicken: {                       // written for white meat; how to switch it to dark meat
+  choice: {                        // written for white meat; how to switch to dark meat
+    label: "Chicken",
     base: "white",
-    dark: {
-      replace: [["Chicken breast", "Boneless skinless chicken thighs"], ["chicken breast", "boneless skinless chicken thighs"]],
-      macros: { cal: "~620", protein: "~45g" },
-      tip: "Trim the extra fat off the thighs before cubing. They stay juicy even if they cook a minute longer."
+    options: {
+      dark: {
+        name: "Dark meat",
+        replace: [["Chicken breast", "Boneless skinless chicken thighs"], ["chicken breast", "boneless skinless chicken thighs"]],
+        macros: { cal: "~620", protein: "~45g" },
+        tip: "Trim the extra fat off the thighs before cubing. They stay juicy even if they cook a minute longer."
+      },
+      white: { name: "White meat" }
     }
   },
   groceries: [
@@ -121,13 +131,32 @@ window.RECIPES = [
 },
 {
   id: "lasagna-stuffed-bread",
-  name: "Lasagna Stuffed Bread (no ricotta)",
+  name: "Lasagna Stuffed Bread",
   tag: "LB",
   color: "#7a2e5c",
   blurb: "A hollowed-out round loaf layered with meat sauce, noodles and cheese, baked under garlic butter.",
   serves: 8,
   time: "1 hr 5 min",
   macros: { cal: "~650", protein: "~30g", carbs: "~54g", fat: "~33g" },
+  choice: {                        // written with extra mozzarella; how to switch to a ricotta filling
+    label: "Cheese layer",
+    base: "mozzarella",
+    options: {
+      mozzarella: { name: "Extra mozzarella" },
+      ricotta: {
+        name: "Ricotta",
+        replace: [
+          ["Shredded mozzarella, **3.5 cups** total", "Shredded mozzarella, **2 cups** total"],
+          ["toss together **2.5 cups shredded mozzarella** (filling)", "stir together **15 oz ricotta**, **1 cup shredded mozzarella** (filling)"],
+          ["then a sprinkle of the cheese mix", "then a layer of the cheese mix, spread thin"],
+          ["Without ricotta the cheese layers come out stretchy and stringy instead of soft and creamy. For some of that creaminess back, stir 4 oz of softened cream cheese into the filling.", ""]
+        ],
+        add: [["Dairy & eggs", "Whole-milk ricotta, {1 container|1} (15 oz)"]],
+        macros: { cal: "~680", protein: "~31g", carbs: "~55g", fat: "~36g" },
+        tip: "Ricotta makes the cheese layers soft and creamy like classic lasagna. Use the egg so the slices hold together."
+      }
+    }
+  },
   groceries: [
     ["Meat", ["Ground beef, **0.5 pounds**"]],
     ["Dairy & eggs", ["Shredded mozzarella, **3.5 cups** total", "Grated romano or parmesan, **0.75 cups** total", "Butter, **0.5 cups** (1 stick)", "Large egg, **1** (optional)"]],

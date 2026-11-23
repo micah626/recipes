@@ -161,8 +161,8 @@ input[type=checkbox]:checked+span{color:var(--muted);text-decoration-color:curre
 </head>
 <body>
 <div id="app"></div>
-<script>window.APP_V="1795470060"</script>
-<script src="recipes.js?v=1795470060"></script>
+<script>window.APP_V="1795470270"</script>
+<script src="recipes.js?v=1795470270"></script>
 <script>
 {
 const R = window.RECIPES || [];
@@ -252,8 +252,8 @@ function renderRecipe(r){
         </div>
         <button class="sv-reset" id="sv-reset" type="button" hidden>Reset to ${esc(r.serves)}</button>
       </div>
-      ${r.chicken?`<div class="opt-row"><span class="opt-label">Chicken</span><div class="seg" role="group" aria-label="Chicken">
-        <button type="button" data-meat="dark" aria-pressed="false">Dark meat</button><button type="button" data-meat="white" aria-pressed="false">White meat</button>
+      ${r.choice?`<div class="opt-row"><span class="opt-label">${esc(r.choice.label)}</span><div class="seg" role="group" aria-label="${esc(r.choice.label)}">
+        ${Object.entries(r.choice.options).map(([k,o])=>`<button type="button" data-opt="${k}" aria-pressed="false">${esc(o.name)}</button>`).join("")}
       </div></div>
       <p class="swap-note" id="swap-note" hidden></p>`:""}
       <div class="actions">
@@ -266,7 +266,7 @@ function renderRecipe(r){
       <div class="sec-head"><h2 id="h-groc">Groceries</h2><span class="count" id="c-groc"></span></div>
       <div class="progress"><i id="p-groc"></i></div>
       <p class="scale-note" id="g-note" hidden></p>
-      ${r.groceries.map((g,gi)=>`<div class="group"><h3>${esc(g[0])}</h3><ul class="items">${g[1].map((it,ii)=>{const k=`${r.id}:g${gi}-${ii}`;return `<li><label><input type="checkbox" data-k="${k}"${S[k]?" checked":""}><span class="gt">${grocHTML(it,1)}</span></label></li>`}).join("")}</ul></div>`).join("")}
+      <div id="grocList"></div>
     </section>
 
     <section aria-labelledby="h-steps">
@@ -276,7 +276,7 @@ function renderRecipe(r){
       <ol class="steps">${r.steps.map((s,i)=>{const k=`${r.id}:s${i}`;return `<li data-k="${k}" class="${S[k]?"done":""}" tabindex="0" role="checkbox" aria-checked="${!!S[k]}"><span class="t">${esc(s[0])}${s[2]?` <span class="time">${icon.clock}${esc(fmtTime(s[2]))}</span>`:""}</span><span class="x">${md(s[1])}</span></li>`}).join("")}</ol>
     </section>
 
-    ${r.tips&&r.tips.length?`<section aria-labelledby="h-tips"><div class="sec-head"><h2 id="h-tips">Tips</h2></div><ul class="tips">${r.tips.map(t=>`<li>${md(t)}</li>`).join("")}</ul></section>`:""}
+    <div id="tipsBox"></div>
     <div class="foot"><a class="pill" href="#" id="back2">${icon.back}All recipes</a></div>
   </div></div>`;
   scrollTo(0,0);
@@ -315,20 +315,29 @@ function renderRecipe(r){
   const SV = store.get("recipeServings");
   const base = r.serves, maxServ = Math.max(20, base*4);
   let serv = Math.min(maxServ, Math.max(1, +SV[r.id] || base));
-  // Chicken: dark (thighs) or white (breast). The recipe is written for r.chicken.base.
-  const CH = store.get("recipeChicken");
-  let meat = r.chicken ? (CH[r.id] === "dark" || CH[r.id] === "white" ? CH[r.id] : r.chicken.base) : null;
-  const swap = () => r.chicken && meat !== r.chicken.base ? r.chicken[meat] : null;
-  const txt = t => { const sw = swap(); return sw ? sw.replace.reduce((a,[x,y]) => a.split(x).join(y), t) : t; };
+  // Recipe options (dark/white chicken, mozzarella/ricotta...). The recipe is written for r.choice.base;
+  // other options swap text, add grocery lines, and replace macros.
+  const CO = store.get("recipeChoice"), OLD = store.get("recipeChicken");
+  let pick = r.choice ? [CO[r.id], OLD[r.id]].find(k => k && r.choice.options[k]) || r.choice.base : null;
+  const swap = () => r.choice && pick !== r.choice.base ? r.choice.options[pick] : null;
+  const txt = t => { const sw = swap(); return sw && sw.replace ? sw.replace.reduce((a,[x,y]) => a.split(x).join(y), t) : t; };
+  const grocGroups = () => {
+    const sw = swap(), gs = r.groceries.map((g,gi) => [g[0], g[1].map((it,ii) => [`g${gi}-${ii}`, it])]);
+    if(sw && sw.add) sw.add.forEach(([grp, it], j) => {
+      let g = gs.find(x => x[0] === grp); if(!g) gs.push(g = [grp, []]);
+      g[1].push([`${pick}-a${j}`, it]);
+    });
+    return gs;
+  };
   const applyServings = () => {
     const sw = swap(), mm = (sw && sw.macros) || m;
     const st = MACROS.filter(([k])=>mm[k]).map(([k,l])=>[l,mm[k]]);
-    view.querySelector("#statsBox").innerHTML = st.length ? `<div class="stats" style="--n:${st.length}">${st.map(([l,v])=>`<div class="stat"><span class="v">${esc(v)}</span><span class="k">${l}</span></div>`).join("")}</div><p class="stats-note">Nutrition is per serving${sw?", estimated for "+meat+" meat":""}.</p>` : "";
-    if(r.chicken){
-      view.querySelectorAll("[data-meat]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.meat === meat)));
-      const note = view.querySelector("#swap-note"); note.hidden = !sw; if(sw) note.textContent = sw.tip;
-      if(meat === r.chicken.base) delete CH[r.id]; else CH[r.id] = meat;
-      store.set("recipeChicken", CH);
+    view.querySelector("#statsBox").innerHTML = st.length ? `<div class="stats" style="--n:${st.length}">${st.map(([l,v])=>`<div class="stat"><span class="v">${esc(v)}</span><span class="k">${l}</span></div>`).join("")}</div><p class="stats-note">Nutrition is per serving${sw && sw.macros ? ", estimated for " + sw.name.toLowerCase() : ""}.</p>` : "";
+    if(r.choice){
+      view.querySelectorAll("[data-opt]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.opt === pick)));
+      const note = view.querySelector("#swap-note"); note.hidden = !(sw && sw.tip); if(sw && sw.tip) note.textContent = sw.tip;
+      if(pick === r.choice.base) delete CO[r.id]; else CO[r.id] = pick;
+      delete OLD[r.id]; store.set("recipeChoice", CO); store.set("recipeChicken", OLD);
     }
     const stepHTML = r.steps.map(s => md(txt(s[1])));
     const f = serv / base;
@@ -338,8 +347,10 @@ function renderRecipe(r){
     view.querySelector('[data-d="1"]').disabled = serv >= maxServ;
     view.querySelector("#sv-reset").hidden = f === 1;
     view.querySelectorAll(".steps .x").forEach((x,i) => { x.innerHTML = f === 1 ? stepHTML[i] : scaleBold(stepHTML[i], f); });
-    const items = r.groceries.flatMap(g => g[1]);
-    view.querySelectorAll(".items .gt").forEach((el,i) => { el.innerHTML = grocHTML(txt(items[i]), f); });
+    view.querySelector("#grocList").innerHTML = grocGroups().map(([name, its]) => `<div class="group"><h3>${esc(name)}</h3><ul class="items">${its.map(([key, it]) => { const k = `${r.id}:${key}`; return `<li><label><input type="checkbox" data-k="${k}"${S[k]?" checked":""}><span class="gt">${grocHTML(txt(it), f)}</span></label></li>`; }).join("")}</ul></div>`).join("");
+    const tips = (r.tips || []).map(txt).filter(t => t.trim());
+    view.querySelector("#tipsBox").innerHTML = tips.length ? `<section aria-labelledby="h-tips"><div class="sec-head"><h2 id="h-tips">Tips</h2></div><ul class="tips">${tips.map(t=>`<li>${md(t)}</li>`).join("")}</ul></section>` : "";
+    progress();
     const note = view.querySelector("#g-note");
     note.hidden = f === 1;
     if(f !== 1) note.innerHTML = `Adjusted for <b>${serv} servings</b>. Package counts are rounded up, so you may have a little left over. Pantry items and spices without amounts aren't adjusted, so check you have enough.`;
@@ -349,7 +360,7 @@ function renderRecipe(r){
   };
   view.querySelectorAll(".sv-btn").forEach(b => b.addEventListener("click", () => { serv = Math.min(maxServ, Math.max(1, serv + +b.dataset.d)); applyServings(); }));
   view.querySelector("#sv-reset").addEventListener("click", () => { serv = base; applyServings(); });
-  view.querySelectorAll("[data-meat]").forEach(b => b.addEventListener("click", () => { meat = b.dataset.meat; applyServings(); }));
+  view.querySelectorAll("[data-opt]").forEach(b => b.addEventListener("click", () => { pick = b.dataset.opt; applyServings(); }));
   applyServings();
 
   const wake = view.querySelector("#wake");

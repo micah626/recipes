@@ -62,25 +62,34 @@ At the original servings everything displays exactly as written, without the mar
 Tile colors already in use: `#b8261c` (red), `#9a5b13` (amber), `#3f6b2a` (green), `#7a2e5c` (plum).
 Other good ones: `#1f5f8b` blue, `#0f6b63` teal, `#5b3fa0` violet.
 
-### Chicken: dark or white meat
+### Recipe options (switches)
 
-Recipes with chicken get a `chicken` field, which adds a Dark meat / White meat switch to the page. `base` is the cut the
-recipe is written for; the other key says how to switch: text swaps applied to groceries and steps (exact,
-case-sensitive), estimated macros for that cut (mark with "~"), and a one-line cooking tip.
+A recipe can have one `choice` field, which adds a switch to the page (e.g. Chicken: Dark meat / White meat,
+Cheese layer: Extra mozzarella / Ricotta). `base` is the option the recipe is written for. Every other option can:
+- `replace`: exact, case-sensitive text swaps applied to groceries, steps and tips (swap a tip to "" to hide it);
+- `add`: extra grocery lines, `[group name, item]` (a new group is created if the name doesn't exist);
+- `macros`: estimated nutrition for that option (mark with "~");
+- `tip`: one line shown under the switch.
 
 ```js
-chicken: {
+choice: {
+  label: "Chicken",
   base: "dark",
-  white: {
-    replace: [["chicken thighs", "chicken breasts"], [" (or about 4 lb bone-in to debone yourself)", ""]],
-    macros: { cal: "~646", protein: "~67g", carbs: "54g", fat: "~19g" },
-    tip: "Breast dries out faster than thighs, so pull it the moment it's golden and cooked through (165°F)."
+  options: {
+    dark: { name: "Dark meat" },
+    white: {
+      name: "White meat",
+      replace: [["chicken thighs", "chicken breasts"], [" (or about 4 lb bone-in to debone yourself)", ""]],
+      macros: { cal: "~646", protein: "~67g", carbs: "54g", fat: "~19g" },
+      tip: "Breast dries out faster than thighs, so pull it the moment it's golden and cooked through (165°F)."
+    }
   }
 }
 ```
 
-Estimate the swapped macros from USDA raw values per 100 g (thigh meat only: 121 kcal, 19.7 g protein, 4.1 g fat;
-breast meat only: 120 kcal, 22.5 g protein, 2.6 g fat) times the chicken per serving; carbs don't change.
+Every chicken recipe gets the Dark/White meat switch. Estimate the swapped macros from USDA raw values per 100 g
+(thigh meat only: 121 kcal, 19.7 g protein, 4.1 g fat; breast meat only: 120 kcal, 22.5 g protein, 2.6 g fat) times
+the chicken per serving; carbs don't change. The pick is remembered per recipe (localStorage `recipeChoice`).
 
 If the owner doesn't give a total time, estimate one from the steps (count hands-on prep like chopping, and don't add
 up steps that happen at the same time, e.g. "while the rice cooks"), round to 5 minutes, and tell them it's an estimate.
