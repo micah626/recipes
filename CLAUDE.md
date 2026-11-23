@@ -62,6 +62,26 @@ At the original servings everything displays exactly as written, without the mar
 Tile colors already in use: `#b8261c` (red), `#9a5b13` (amber), `#3f6b2a` (green). Other good ones: `#1f5f8b` blue,
 `#7a2e5c` plum, `#0f6b63` teal, `#5b3fa0` violet.
 
+### Chicken: dark or white meat
+
+Recipes with chicken get a `chicken` field, which adds a Dark meat / White meat switch to the page. `base` is the cut the
+recipe is written for; the other key says how to switch: text swaps applied to groceries and steps (exact,
+case-sensitive), estimated macros for that cut (mark with "~"), and a one-line cooking tip.
+
+```js
+chicken: {
+  base: "dark",
+  white: {
+    replace: [["chicken thighs", "chicken breasts"], [" (or about 4 lb bone-in to debone yourself)", ""]],
+    macros: { cal: "~646", protein: "~67g", carbs: "54g", fat: "~19g" },
+    tip: "Breast dries out faster than thighs, so pull it the moment it's golden and cooked through (165°F)."
+  }
+}
+```
+
+Estimate the swapped macros from USDA raw values per 100 g (thigh meat only: 121 kcal, 19.7 g protein, 4.1 g fat;
+breast meat only: 120 kcal, 22.5 g protein, 2.6 g fat) times the chicken per serving; carbs don't change.
+
 If the owner doesn't give a total time, estimate one from the steps (count hands-on prep like chopping, and don't add
 up steps that happen at the same time, e.g. "while the rice cooks"), round to 5 minutes, and tell them it's an estimate.
 

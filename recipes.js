@@ -12,6 +12,14 @@ window.RECIPES = [
   serves: 5,
   time: "50 min",
   macros: { cal: "651", protein: "61g", carbs: "54g", fat: "22g" },
+  chicken: {                       // written for dark meat; how to switch it to white meat
+    base: "dark",
+    white: {
+      replace: [["chicken thighs", "chicken breasts"], [" (or about 4 lb bone-in to debone yourself)", ""]],
+      macros: { cal: "~646", protein: "~67g", carbs: "54g", fat: "~19g" },
+      tip: "Breast dries out faster than thighs, so pull it the moment it's golden and cooked through (165°F)."
+    }
+  },
   groceries: [
     ["Meat", ["Boneless skinless chicken thighs, about **2.5 lb** (or about 4 lb bone-in to debone yourself)"]],
     ["Dairy", ["Light butter (about **4½ tbsp** total)", "Fat-free evaporated milk, {1 can|1.25/1.5} (12 oz), or skim milk", "Light cream cheese, {1 block|6/8} (8 oz)", "Reduced-fat shredded cheddar, {1 bag|1/2} (8 oz)"]],
@@ -44,6 +52,14 @@ window.RECIPES = [
   serves: 5,
   time: "40 min",
   macros: { cal: "~620", protein: "~50g" },
+  chicken: {                       // written for white meat; how to switch it to dark meat
+    base: "white",
+    dark: {
+      replace: [["Chicken breast", "Boneless skinless chicken thighs"], ["chicken breast", "boneless skinless chicken thighs"]],
+      macros: { cal: "~620", protein: "~45g" },
+      tip: "Trim the extra fat off the thighs before cubing. They stay juicy even if they cook a minute longer."
+    }
+  },
   groceries: [
     ["Meat & eggs", ["Chicken breast, **1.75 lb**", "Eggs, {1 dozen|10/12} (you need **10**)"]],
     ["Frozen", ["Mixed frozen veggies, {1 bag|1} (about **10.5 oz**)"]],

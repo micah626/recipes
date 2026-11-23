@@ -84,6 +84,12 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .hero{padding:12px 0 4px}
 .ready{display:inline-flex;align-items:center;gap:6px;margin:0 0 12px;padding:5px 12px 5px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);font-size:13px;font-weight:600}
 .ready svg{width:15px;height:15px}
+.opt-row{display:flex;align-items:center;gap:12px;margin:12px 0 0}
+.opt-label{font-size:14px;color:var(--muted);min-width:56px}
+.seg{display:inline-flex;gap:2px;background:var(--field);border-radius:999px;padding:3px}
+.seg button{height:34px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:500;color:var(--muted);transition:background-color .2s,color .2s,box-shadow .2s}
+.seg button[aria-pressed=true]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.swap-note{font-size:13px;line-height:1.5;color:var(--ink2);background:var(--accent-soft);border-radius:12px;padding:9px 12px;margin:10px 0 0}
 .serv-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:22px 0 0}
 .serv{display:inline-flex;align-items:center;gap:2px;background:var(--surface);box-shadow:var(--shadow);border-radius:999px;padding:4px}
 .sv-btn{width:36px;height:36px;border-radius:50%;background:var(--field);color:var(--ink);display:grid;place-items:center;transition:transform .15s var(--ease),opacity .2s}
@@ -155,8 +161,8 @@ input[type=checkbox]:checked+span{color:var(--muted);text-decoration-color:curre
 </head>
 <body>
 <div id="app"></div>
-<script>window.APP_V="1795468225"</script>
-<script src="recipes.js?v=1795468225"></script>
+<script>window.APP_V="1795468328"</script>
+<script src="recipes.js?v=1795468328"></script>
 <script>
 {
 const R = window.RECIPES || [];
@@ -225,7 +231,6 @@ let wakeLock = null, wantWake = false, barObserver = null;
 function renderRecipe(r){
   document.title = r.name + " · Recipes";
   const m = r.macros||{};
-  const stats = MACROS.filter(([k])=>m[k]).map(([k,l])=>[k,l,m[k]]);
   const nGroc = r.groceries.reduce((a,g)=>a+g[1].length,0);
   app.innerHTML = `<div class="view">
   <div class="bar" id="bar"><div class="wrap">
@@ -238,8 +243,7 @@ function renderRecipe(r){
       ${r.time?`<p class="ready">${icon.clock}Ready in about ${esc(r.time)}</p>`:""}
       <h1 id="title">${esc(r.name)}</h1>
       ${r.blurb?`<p class="blurb">${esc(r.blurb)}</p>`:""}
-      ${stats.length?`<div class="stats" style="--n:${stats.length}">${stats.map(([,l,v])=>`<div class="stat"><span class="v">${esc(v)}</span><span class="k">${l}</span></div>`).join("")}</div>`:""}
-      ${stats.length?`<p class="stats-note">Nutrition is per serving.</p>`:""}
+      <div id="statsBox"></div>
       <div class="serv-row">
         <div class="serv" role="group" aria-label="Servings">
           <button class="sv-btn" type="button" data-d="-1" aria-label="Fewer servings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
@@ -248,6 +252,10 @@ function renderRecipe(r){
         </div>
         <button class="sv-reset" id="sv-reset" type="button" hidden>Reset to ${esc(r.serves)}</button>
       </div>
+      ${r.chicken?`<div class="opt-row"><span class="opt-label">Chicken</span><div class="seg" role="group" aria-label="Chicken">
+        <button type="button" data-meat="dark" aria-pressed="false">Dark meat</button><button type="button" data-meat="white" aria-pressed="false">White meat</button>
+      </div></div>
+      <p class="swap-note" id="swap-note" hidden></p>`:""}
       <div class="actions">
         ${"wakeLock" in navigator?`<button class="pill" id="wake" type="button" aria-pressed="false">${icon.sun}Keep screen on</button>`:""}
         <button class="pill" id="reset" type="button">${icon.reset}Clear checkmarks</button>
@@ -307,8 +315,22 @@ function renderRecipe(r){
   const SV = store.get("recipeServings");
   const base = r.serves, maxServ = Math.max(20, base*4);
   let serv = Math.min(maxServ, Math.max(1, +SV[r.id] || base));
-  const stepHTML = r.steps.map(s => md(s[1]));
+  // Chicken: dark (thighs) or white (breast). The recipe is written for r.chicken.base.
+  const CH = store.get("recipeChicken");
+  let meat = r.chicken ? (CH[r.id] === "dark" || CH[r.id] === "white" ? CH[r.id] : r.chicken.base) : null;
+  const swap = () => r.chicken && meat !== r.chicken.base ? r.chicken[meat] : null;
+  const txt = t => { const sw = swap(); return sw ? sw.replace.reduce((a,[x,y]) => a.split(x).join(y), t) : t; };
   const applyServings = () => {
+    const sw = swap(), mm = (sw && sw.macros) || m;
+    const st = MACROS.filter(([k])=>mm[k]).map(([k,l])=>[l,mm[k]]);
+    view.querySelector("#statsBox").innerHTML = st.length ? `<div class="stats" style="--n:${st.length}">${st.map(([l,v])=>`<div class="stat"><span class="v">${esc(v)}</span><span class="k">${l}</span></div>`).join("")}</div><p class="stats-note">Nutrition is per serving${sw?", estimated for "+meat+" meat":""}.</p>` : "";
+    if(r.chicken){
+      view.querySelectorAll("[data-meat]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.meat === meat)));
+      const note = view.querySelector("#swap-note"); note.hidden = !sw; if(sw) note.textContent = sw.tip;
+      if(meat === r.chicken.base) delete CH[r.id]; else CH[r.id] = meat;
+      store.set("recipeChicken", CH);
+    }
+    const stepHTML = r.steps.map(s => md(txt(s[1])));
     const f = serv / base;
     view.querySelector("#sv").textContent = serv;
     view.querySelector("#sv-l").textContent = serv === 1 ? "serving" : "servings";
@@ -317,7 +339,7 @@ function renderRecipe(r){
     view.querySelector("#sv-reset").hidden = f === 1;
     view.querySelectorAll(".steps .x").forEach((x,i) => { x.innerHTML = f === 1 ? stepHTML[i] : scaleBold(stepHTML[i], f); });
     const items = r.groceries.flatMap(g => g[1]);
-    view.querySelectorAll(".items .gt").forEach((el,i) => { el.innerHTML = grocHTML(items[i], f); });
+    view.querySelectorAll(".items .gt").forEach((el,i) => { el.innerHTML = grocHTML(txt(items[i]), f); });
     const note = view.querySelector("#g-note");
     note.hidden = f === 1;
     if(f !== 1) note.innerHTML = `Adjusted for <b>${serv} servings</b>. Package counts are rounded up, so you may have a little left over. Pantry items and spices without amounts aren't adjusted, so check you have enough.`;
@@ -327,6 +349,7 @@ function renderRecipe(r){
   };
   view.querySelectorAll(".sv-btn").forEach(b => b.addEventListener("click", () => { serv = Math.min(maxServ, Math.max(1, serv + +b.dataset.d)); applyServings(); }));
   view.querySelector("#sv-reset").addEventListener("click", () => { serv = base; applyServings(); });
+  view.querySelectorAll("[data-meat]").forEach(b => b.addEventListener("click", () => { meat = b.dataset.meat; applyServings(); }));
   applyServings();
 
   const wake = view.querySelector("#wake");
