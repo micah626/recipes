@@ -29,8 +29,9 @@ Append an object to `window.RECIPES` in `recipes.js`:
     ["Meat", ["Chicken thighs, 2.5 lb"]],
     ["Pantry", ["Honey", "Olive oil"]]
   ],
-  steps: [                         // [short title, instructions]; wrap amounts in **bold**
-    ["Prep the chicken", "Cut **2.4 lb chicken** into cubes."]
+  steps: [                         // [short title, instructions, optional time]; wrap amounts in **bold**
+    ["Prep the chicken", "Cut **2.4 lb chicken** into cubes."],
+    ["Sear it", "Cook about 5 minutes per side.", "10m"]   // time shows as a chip: "1m 30s" -> "1 min 30 sec"
   ],
   tips: ["Keeps about 4 days in the fridge."]
 }
@@ -42,20 +43,26 @@ Each recipe page has a servings control. It rescales numbers inside **bold** in 
 decimals kept for decimal amounts like 2.4 lb, whole numbers for counts like 10 eggs). So put every amount that should
 scale in bold, with its unit right after the number ("**2½ tsp smoked paprika**", "**10 eggs**").
 A note in parentheses directly after a bold amount is rescaled if it holds a measurement ("(just over 2 cups dry)") and
-hidden if it holds some other number ("(¾ of the block)"). Times, temperatures and sizes ("8 minutes", "165°F",
+hidden if it holds some other number ("(¾ of the block)"); percentages like "(95% lean)" and notes ending in "each"
+("(about 30g, each)") are always kept as is. Counts fix their noun: "1 medium red onion" -> "2 medium red onions",
+"6 tortillas" -> "1 tortilla"; unit words too ("1 teaspoon" / "2 teaspoons"). Times, temperatures and sizes ("8 minutes", "165°F",
 "1.5-inch") must not be bold.
 
 The grocery list scales too:
 - Bold amounts scale the same way ("Chicken breast, **1.75 lb**", "(you need **10**)").
-- Package counts use `{count unit|packages used}`: `{1 box|9/16} (1 lb)` means buy 1 box and the recipe uses 9 oz of it.
+- Package counts use `{count unit|packages used}` (unit optional: `Red bell pepper, {1|1}`; size words stay
+  singular: `Red onion, {1 medium|1}` -> "2 medium"): `{1 box|9/16} (1 lb)` means buy 1 box and the recipe uses 9 oz of it.
   When scaled, the count is rounded up (2 boxes at 10 servings), a bare size note becomes "(1 lb each)", and if
   rounding up leaves extra it adds how much actually gets used ("you'll only use about 18 oz").
   Work out "packages used" from the step amounts and the package size; ask the owner if a package size is unknown.
 - Items with no amount (spices, sauces, "Honey") are left as is.
 At the original servings everything displays exactly as written, without the markup.
 
-Tile colors already in use: `#b8261c` (red), `#9a5b13` (amber). Other good ones: `#3f6b2a` green, `#1f5f8b` blue,
+Tile colors already in use: `#b8261c` (red), `#9a5b13` (amber), `#3f6b2a` (green). Other good ones: `#1f5f8b` blue,
 `#7a2e5c` plum, `#0f6b63` teal, `#5b3fa0` violet.
+
+When the owner pastes an ingredient list rather than a shopping list, build the grocery list from it: group by store
+section, keep their amounts, and combine an ingredient used twice into one "total" line (e.g. garlic powder 2 + 0.5 tsp).
 
 Reordering items within a recipe's groceries or steps shifts which boxes appear checked for anyone mid-recipe; that's fine,
 the "Clear checkmarks" button resets it.

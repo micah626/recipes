@@ -64,5 +64,40 @@ window.RECIPES = [
     "Boil the noodles while the chicken marinates to save time.",
     "Keeps about 4 days in the fridge."
   ]
+},
+{
+  id: "cheesy-beef-burritos",
+  name: "High-Protein Cheesy Beef Burritos",
+  tag: "BB",
+  color: "#3f6b2a",
+  blurb: "Taco-seasoned lean beef and red rice, wrapped with cheese and toasted shut.",
+  serves: 6,
+  macros: { cal: "583", protein: "51g", carbs: "57g", fat: "15g" },
+  groceries: [
+    ["Meat", ["Extra-lean ground beef (95% lean or leaner), **1.76 pounds**"]],
+    ["Produce", ["Red onion, {1 medium|1}", "Red bell pepper, {1|1}"]],
+    ["Dairy", ["Light butter, **0.53 ounces**", "Low-fat shredded cheese, **6.35 ounces**"]],
+    ["Bakery", ["Protein or low-carb tortillas (Mission), **6**"]],
+    ["Pantry", ["White rice, **7.05 ounces**", "Tomato paste, **1.23 ounces**", "Chicken stock, **1.67 cups**", "Fajita sauce (Old El Paso), **7.05 ounces**", "Cooking spray"]],
+    ["Spices (check what you have)", ["Paprika, **2 teaspoons**", "Garlic powder, **2.5 teaspoons** total", "Onion powder, **1.5 teaspoons** total", "Cayenne, **1.5 teaspoons** total", "Cumin, **1 teaspoon**", "Dried oregano, **1 teaspoon**", "Salt, **3 teaspoons** total", "Black pepper, **1 teaspoon**"]]
+  ],
+  steps: [
+    ["Mix the taco seasoning", "In a small bowl, stir together **2 teaspoons paprika** (seasoning), **2 teaspoons garlic powder** (seasoning), **1 teaspoon onion powder** (seasoning), **1 teaspoon cayenne** (seasoning), **1 teaspoon cumin**, **1 teaspoon dried oregano**, **2 teaspoons salt** (seasoning) and **1 teaspoon black pepper**. Set it aside."],
+    ["Toast the rice", "Melt **0.53 ounces light butter** (rice) in a pot over medium heat. Add **7.05 ounces white rice**, rinsed and stir for 1–2 minutes until it smells toasty.", "1m 30s"],
+    ["Season the rice", "Stir in **0.5 teaspoons garlic powder** (rice), **0.5 teaspoons onion powder** (rice), **0.5 teaspoons cayenne** (rice), **1 teaspoon salt** (rice) and **1.23 ounces tomato paste**. Cook about 1 minute until the rice is coated red.", "1m"],
+    ["Cook the rice", "Pour in **1.67 cups chicken stock** and bring it to a boil. Cover, turn the heat to low and simmer until the liquid is absorbed, then take it off the heat and let it sit covered 5 minutes. Fluff with a fork.", "15m"],
+    ["Cook the veggies", "While the rice cooks, spray a large pan with cooking spray and set it over medium-high heat. Cook **1 medium red onion**, diced and **1 red bell pepper**, diced until softened.", "4m"],
+    ["Brown the beef", "Add **1.76 pounds extra-lean ground beef** (95% lean or leaner) and break it up as it cooks until browned with no pink left.", "7m"],
+    ["Sauce the beef", "Stir in all the taco seasoning and **7.05 ounces fajita sauce** (Old El Paso). Simmer 2–3 minutes until thick and coated.", "2m 30s"],
+    ["Fill the burritos", "Lay out **6 protein or low-carb tortillas** (Mission). Split the rice and beef evenly between them and top each with an equal share of **6.35 ounces low-fat shredded cheese** (about 30g, or a heaping ¼ cup, each)."],
+    ["Roll them up", "Fold in the sides, then roll each burrito up tightly from the bottom."],
+    ["Toast to seal", "Toast the burritos folded side down in a dry or lightly buttered pan over medium heat until golden, then flip and toast the other side. This seals them shut.", "2m"],
+    ["Cool and wrap", "Let them cool fully, then wrap each in foil."]
+  ],
+  tips: [
+    "Storage: fridge up to a week, freezer a couple of months.",
+    "To reheat, take off the foil, wrap in a damp paper towel and microwave 3–4 minutes from the fridge or 5–6 from frozen, flipping halfway, then crisp it in a pan or air fryer for a couple of minutes.",
+    "The video's caption gives ingredients but no cooking steps, so the steps follow the standard method for each part."
+  ]
 }
 ];
