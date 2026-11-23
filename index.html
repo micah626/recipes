@@ -95,6 +95,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .scale-note b{color:var(--ink)}
 .steps b.scaled,.items b.scaled{color:var(--accent-ink)}
 .items b{font-weight:inherit}
+.items .use{color:var(--muted);font-style:italic}
 .items b.scaled{font-weight:600}
 input[type=checkbox]:checked+span b.scaled{color:inherit}
 .steps li.done b.scaled{color:var(--muted)}
@@ -150,8 +151,8 @@ input[type=checkbox]:checked+span{color:var(--muted);text-decoration-color:curre
 </head>
 <body>
 <div id="app"></div>
-<script>window.APP_V="1795466127"</script>
-<script src="recipes.js?v=1795466127"></script>
+<script>window.APP_V="1795466417"</script>
+<script src="recipes.js?v=1795466417"></script>
 <script>
 {
 const R = window.RECIPES || [];
@@ -394,12 +395,22 @@ function plural(word, n){
 }
 const SIZE_ONLY = /^[\d.¼½¾⅓⅔]+\s*(oz|fl oz|lbs?|g|kg|ml)$/i;
 function grocHTML(t, f){
+  const hasAmount = /\*\*/.test(t);   // e.g. "(you need **10**)" already says how much is used
   let h = esc(t).replace(/\{(\d+)\s+([^|}]+)\|([\d.\/]+)\}(\s*\(([^)]*)\))?/g, (m, n, unit, use, paren, inner) => {
     if(f === 1) return `${n} ${unit}${paren || ""}`;
-    const c = Math.max(1, Math.ceil(fracNum(use) * f - 1e-9));
+    const used = fracNum(use) * f, c = Math.max(1, Math.ceil(used - 1e-9));
     let out = `<b class="scaled">${c} ${plural(unit, c)}</b>`;
-    if(paren) out += c > 1 && SIZE_ONLY.test(inner.trim()) ? paren.replace(inner, inner + " each")
-                   : c === 1 ? paren.replace(/\s+each\)$/, ")") : paren;
+    const size = paren ? inner.trim().replace(/\s+each$/, "") : "";
+    const isSize = SIZE_ONLY.test(size);
+    // When rounding up leaves some over, say how much actually gets used.
+    let note = "";
+    if(!hasAmount && c - used >= .1){
+      const sm = isSize && size.match(/^([\d.]+)\s*(fl oz|oz|lbs?)$/i);
+      note = `<span class="use">you'll only use about ${sm ? Math.round(used * +sm[1] * (/^lb/i.test(sm[2]) ? 16 : 1)) + " oz" : frac(used, false)}</span>`;
+    }
+    if(isSize) out += ` (${size}${c > 1 ? " each" : ""}${note ? ", " + note : ""})`;
+    else if(paren) out += paren + (note ? ` (${note})` : "");
+    else if(note) out += ` (${note})`;
     return out;
   });
   return f === 1 ? h.replace(/\*\*(.+?)\*\*/g, "$1") : scaleBold(h.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>"), f);

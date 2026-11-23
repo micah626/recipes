@@ -48,7 +48,8 @@ hidden if it holds some other number ("(¾ of the block)"). Times, temperatures 
 The grocery list scales too:
 - Bold amounts scale the same way ("Chicken breast, **1.75 lb**", "(you need **10**)").
 - Package counts use `{count unit|packages used}`: `{1 box|9/16} (1 lb)` means buy 1 box and the recipe uses 9 oz of it.
-  When scaled, the count is rounded up (2 boxes at 10 servings) and a bare size note becomes "(1 lb each)".
+  When scaled, the count is rounded up (2 boxes at 10 servings), a bare size note becomes "(1 lb each)", and if
+  rounding up leaves extra it adds how much actually gets used ("you'll only use about 18 oz").
   Work out "packages used" from the step amounts and the package size; ask the owner if a package size is unknown.
 - Items with no amount (spices, sauces, "Honey") are left as is.
 At the original servings everything displays exactly as written, without the markup.
