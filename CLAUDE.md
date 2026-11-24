@@ -14,6 +14,9 @@ The owner works out recipes in a separate chat, then pastes the final recipe her
 keep their exact amounts, wording and brand names. Don't invent macros, times or ingredients; ask if something
 is missing or ambiguous (e.g. servings).
 
+One standing exception: if the recipe name includes "High-Protein" or "High Protein", take it out ("High-Protein
+Chicken Lo Mein" -> "Chicken Lo Mein"). Every recipe here is high protein, so it adds nothing.
+
 Append an object to `window.RECIPES` in `recipes.js` (the home page sorts recipes A–Z by name, so order here doesn't matter):
 
 ```js
