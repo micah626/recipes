@@ -53,6 +53,8 @@ hidden if it holds some other number ("(¾ of the block)"); percentages like "(9
 ("(about 30g, each)", "(150g each, about ¾ cup)") are always kept as is. Counts fix their noun: "1 medium red onion" -> "2 medium red onions",
 "6 tortillas" -> "1 tortilla"; unit words too ("1 teaspoon" / "2 teaspoons"). Times, temperatures and sizes ("8 minutes", "165°F",
 "1.5-inch") must not be bold.
+Per-portion wording that depends on the count uses `{n}` (number of servings) and `{per}` (one share as a fraction):
+"add {per} of the beef (weigh the total and divide by {n})" reads "add ⅛ … divide by 8" at 8 servings.
 
 The grocery list scales too:
 - Bold amounts scale the same way ("Chicken breast, **1.75 lb**", "(you need **10**)").
@@ -65,8 +67,8 @@ The grocery list scales too:
 At the original servings everything displays exactly as written, without the markup.
 
 Tile colors already in use: `#b8261c` (red), `#9a5b13` (amber), `#3f6b2a` (green), `#7a2e5c` (plum), `#1f5f8b` (blue),
-`#8a4b2a` (brown), `#0f6b63` (teal), `#5b3fa0` (violet). Other good ones: `#3d4f7a` slate, `#a3402a` rust,
-`#5c6b2a` olive, `#2f6f8f` steel blue.
+`#8a4b2a` (brown), `#0f6b63` (teal), `#5b3fa0` (violet), `#3d4f7a` (slate). Other good ones: `#a3402a` rust,
+`#5c6b2a` olive, `#2f6f8f` steel blue, `#8f3b5a` raspberry.
 
 ### Recipe options (switches)
 

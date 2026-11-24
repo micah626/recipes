@@ -161,8 +161,8 @@ input[type=checkbox]:checked+span{color:var(--muted);text-decoration-color:curre
 </head>
 <body>
 <div id="app"></div>
-<script>window.APP_V="1795540700"</script>
-<script src="recipes.js?v=1795540700"></script>
+<script>window.APP_V="1795541043"</script>
+<script src="recipes.js?v=1795541043"></script>
 <script>
 {
 const R = window.RECIPES || [];
@@ -320,7 +320,9 @@ function renderRecipe(r){
   const CO = store.get("recipeChoice"), OLD = store.get("recipeChicken");
   let pick = r.choice ? [CO[r.id], OLD[r.id]].find(k => k && r.choice.options[k]) || r.choice.base : null;
   const swap = () => r.choice && pick !== r.choice.base ? r.choice.options[pick] : null;
-  const txt = t => { const sw = swap(); return sw && sw.replace ? sw.replace.reduce((a,[x,y]) => a.split(x).join(y), t) : t; };
+  // {n} = number of servings, {per} = one share of it ("divide by {n}", "add {per} of the beef")
+  const txt = t => { const sw = swap(); t = sw && sw.replace ? sw.replace.reduce((a,[x,y]) => a.split(x).join(y), t) : t;
+    return t.replace(/\{n\}/g, serv).replace(/\{per\}/g, PER[serv] || "1/" + serv); };
   const grocGroups = () => {
     const sw = swap(), gs = r.groceries.map((g,gi) => [g[0], g[1].map((it,ii) => [`g${gi}-${ii}`, it])]);
     if(sw && sw.add) sw.add.forEach(([grp, it], j) => {
@@ -390,6 +392,7 @@ document.addEventListener("visibilitychange", () => { if(!document.hidden && wan
 // is never faster than half of it); the rest (baking, simmering, boiling water) stays the same.
 const fmtMin = m => { m = Math.max(5, Math.round(m / 5) * 5); const h = Math.floor(m / 60), r = m % 60; return h ? `${h} hr${r ? " " + r + " min" : ""}` : `${m} min`; };
 const timeFor = (r, f = 1) => typeof r.time === "string" ? r.time : fmtMin(r.time.total - r.time.scales + r.time.scales * Math.max(f, .5));
+const PER = {1:"all",2:"½",3:"⅓",4:"¼",5:"⅕",6:"⅙",7:"⅐",8:"⅛",9:"⅑",10:"⅒"};
 const fmtTime = t => t.replace(/(\d+)\s*h\b/g, "$1 hr").replace(/(\d+)\s*m\b/g, "$1 min").replace(/(\d+)\s*s\b/g, "$1 sec");
 
 /* ---------- Scaling ---------- */
@@ -412,7 +415,8 @@ function scaleNum(tok, unit, f){
   if(/^cups?$/i.test(unit) && v < .24){ const tb = v * 16; return tb < .99 ? [frac(tb * 3, true), "teaspoons"] : [frac(tb, true), "tablespoons"]; }
   if(VOLUME.test(unit)) return [frac(v, true), unit];   // spoons and cups always read best as fractions
   if(tok.includes(".") && !WEIGHT.test(unit) && !METRIC.test(unit)) return [frac(v, true), unit];   // "0.5 red onion" -> "¼ red onion"
-  if(tok.includes(".")){ const d = tok.split(".")[1].length; return [String(+v.toFixed(d) || +v.toFixed(d+1)), unit]; }
+  // decimals: keep the original's places, but at least 2 under 1 (0.1375 lb -> 0.14, not 0.1)
+  if(tok.includes(".")){ const d = Math.max(tok.split(".")[1].length, v < 1 ? 2 : 0); return [String(+v.toFixed(d) || +v.toFixed(d+1)), unit]; }
   if(WEIGHT.test(unit)) return [frac(v, false), unit];
   if(METRIC.test(unit)) return [String(Math.max(1, Math.round(v))), unit];
   if(/[¼½¾⅓⅔⅛⅜⅝⅞]/.test(tok)) return [frac(v, true), unit];

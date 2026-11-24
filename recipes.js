@@ -349,5 +349,34 @@ window.RECIPES = [
     "Potato starch can be swapped for cornstarch.",
     "The chili flake amount isn't given; ½ tsp is a starting point."
   ]
+},
+{
+  id: "cheesy-beef-potato-pockets",
+  name: "Cheesy Beef Potato Pockets",
+  tag: "BP",
+  color: "#3d4f7a",
+  blurb: "Mashed potato dough wrapped around seasoned lean beef and cheese, pan-fried until golden.",
+  serves: 8,
+  time: { total: 80, scales: 30 },   // peeling and chopping, filling each pocket, pan-frying in batches
+  macros: { cal: "296", protein: "24g", carbs: "31g", fat: "8g" },
+  groceries: [
+    ["Meat", ["Extra-lean ground beef (95% lean or leaner), **1.1 pounds**"]],
+    ["Produce", ["Potatoes, **1.98 pounds**", "White onion, {1 medium|1}", "Fresh chili, **0.35 ounces** (optional, or ½ tsp cayenne)"]],
+    ["Dairy & eggs", ["Low-fat shredded cheese, **5.64 ounces**", "Large egg, **1**"]],
+    ["Pantry", ["All-purpose flour, **4.41 ounces** (1 cup)", "Cooking spray"]],
+    ["Spices (check what you have)", ["Garlic powder, **1 teaspoon**", "Smoked paprika, **1 teaspoon**", "Salt, **1.5 teaspoons** total", "Black pepper, **1 teaspoon**", "Dried mixed herbs (or Italian seasoning), **1 teaspoon**"]]
+  ],
+  steps: [
+    ["Boil the potatoes", "Put **1.98 pounds potatoes**, peeled and chopped in a pot of cold salted water, bring it to a boil, and cook until fork-tender. Starting from cold helps them cook evenly.", "15m"],
+    ["Mash and cool", "Drain well and mash until smooth. Let the potatoes cool completely, or the dough will be sticky and hard to handle."],
+    ["Cook the filling", "While the potatoes cool, spray a pan with cooking spray and cook **1 medium white onion**, diced and **0.35 ounces fresh chili, diced** (optional, or ½ tsp cayenne) over medium-high heat until soft. Add **1.1 pounds extra-lean ground beef** (95% lean or leaner) and brown it, breaking it up, then stir in **1 teaspoon garlic powder**, **1 teaspoon smoked paprika**, **1 teaspoon salt** (filling), **1 teaspoon black pepper** and **1 teaspoon dried mixed herbs** (or Italian seasoning). Let it cool a bit.", "10m"],
+    ["Make the dough", "Mix the cooled mashed potatoes with **4.41 ounces all-purpose flour** (1 cup), **1 large egg** and **0.5 teaspoons salt** (dough) into a soft dough. Split it into **8 equal portions**."],
+    ["Fill the pockets", "Lightly grease your hands. Flatten one portion into a round in your palm, add {per} of the beef (weigh the total and divide by {n}) and 20g of **5.64 ounces low-fat shredded cheese**, then fold the dough around it and pinch it closed. Pat it into a thick patty. Repeat with the rest."],
+    ["Pan-fry", "Spray a pan with cooking spray and set it over medium-low heat. Cook the pockets covered with a lid for 1–2 minutes per side until golden brown. Work in batches.", "3m"],
+    ["Store", "Let them cool, wrap each in foil, and keep in the fridge or freezer."]
+  ],
+  tips: [
+    "To reheat from the fridge: unwrap and air fry 8–10 minutes at about 425°F until crispy. From frozen: 13–15 minutes at the same temp."
+  ]
 }
 ];
