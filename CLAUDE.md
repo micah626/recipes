@@ -60,7 +60,7 @@ The grocery list scales too:
 At the original servings everything displays exactly as written, without the markup.
 
 Tile colors already in use: `#b8261c` (red), `#9a5b13` (amber), `#3f6b2a` (green), `#7a2e5c` (plum), `#1f5f8b` (blue),
-`#8a4b2a` (brown). Other good ones: `#0f6b63` teal, `#5b3fa0` violet, `#3d4f7a` slate, `#a3402a` rust.
+`#8a4b2a` (brown), `#0f6b63` (teal). Other good ones: `#5b3fa0` violet, `#3d4f7a` slate, `#a3402a` rust, `#5c6b2a` olive.
 
 ### Recipe options (switches)
 

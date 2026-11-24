@@ -274,5 +274,39 @@ window.RECIPES = [
     "The caption gives the ingredients, macros and bake time but not the cooking steps, so the steps are the usual method.",
     "Recipe from @panaceapalm."
   ]
+},
+{
+  id: "pizza-sticks",
+  name: "High-Protein Mozzarella Pizza Sticks",
+  tag: "PS",
+  color: "#0f6b63",
+  blurb: "String cheese and turkey pepperoni wrapped in a Greek yogurt dough and air fried until golden.",
+  serves: 10,
+  time: { total: 45, scales: 35 },   // rolling, filling and sealing each stick, air frying in batches
+  macros: { cal: "170", protein: "19g" },
+  groceries: [
+    ["Dairy", ["Nonfat Greek yogurt, **7.05 ounces**", "Light mozzarella string cheese sticks, **10**", "Low-fat shredded mozzarella, **1.76 ounces**"]],
+    ["Meat", ["Turkey pepperoni, **3.53 ounces**"]],
+    ["Baking", ["Self-rising flour, **3.53 ounces**", "Protein flour (he used Fit Protein Flour), **3.53 ounces**"]],
+    ["Pantry", ["Pizza sauce, **10 tablespoons**, plus more for dipping", "Ranch, for dipping (optional)", "Cooking spray"]],
+    ["Equipment", ["Dough press"]]
+  ],
+  steps: [
+    ["Make the dough", "In a big bowl, mix **3.53 ounces self-rising flour**, **3.53 ounces protein flour** (he used Fit Protein Flour) and **7.05 ounces nonfat Greek yogurt** until it comes together, then knead it into one smooth dough ball. Add a little flour if it's sticky."],
+    ["Divide it", "Split the dough into **10 equal balls**."],
+    ["Roll them out", "On a floured counter, roll each ball into a thin rectangle a little longer than a cheese stick. Squaring them up makes rolling easier, but it doesn't have to be perfect."],
+    ["Add the toppings", "On each rectangle, spread about 1 tbsp of sauce from **10 tablespoons pizza sauce**, plus more for dipping. Lay 1 cheese stick from **10 light mozzarella string cheese sticks** on top, then about 10g of pepperoni from **3.53 ounces turkey pepperoni** and a pinch (5g) of **1.76 ounces low-fat shredded mozzarella**."],
+    ["Roll and seal", "Fold the ends in and roll each one up tightly around the cheese stick. Pinch the seam closed so the cheese can't leak out."],
+    ["Air fry", "Set them seam side down in the air fryer with a little cooking spray. Air fry at 375°F for about 5 minutes, until golden. Give them another minute or two if they're still pale.", "5m"],
+    ["Serve", "Let them cool a minute (the cheese is very hot), then dip in pizza sauce or ranch."]
+  ],
+  tips: [
+    "You'll need a dough press for this.",
+    "He air fried them in batches; don't crowd the basket.",
+    "If you can't find protein flour, use all self-rising flour (about 200g total); protein drops a few grams per stick.",
+    "The video just says \"flour\"; self-rising is what makes this 2-ingredient-style dough puff, so use that.",
+    "The amount of sauce per stick was covered by a notification in your recording, so 1 tbsp is my estimate.",
+    "Recipe from @tastyshreds."
+  ]
 }
 ];
