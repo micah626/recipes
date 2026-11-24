@@ -125,8 +125,7 @@ window.RECIPES = [
   ],
   tips: [
     "Storage: fridge up to a week, freezer a couple of months.",
-    "To reheat, take off the foil, wrap in a damp paper towel and microwave 3–4 minutes from the fridge or 5–6 from frozen, flipping halfway, then crisp it in a pan or air fryer for a couple of minutes.",
-    "The video's caption gives ingredients but no cooking steps, so the steps follow the standard method for each part."
+    "To reheat, take off the foil, wrap in a damp paper towel and microwave 3–4 minutes from the fridge or 5–6 from frozen, flipping halfway, then crisp it in a pan or air fryer for a couple of minutes."
   ]
 },
 {
@@ -223,8 +222,7 @@ window.RECIPES = [
     "No air fryer: bake on a sprayed sheet pan at 425°F for 20‒25 minutes, flipping halfway.",
     "Brown stevia is optional; skip it or use 1 tsp brown sugar.",
     "Potato starch can be swapped for cornstarch.",
-    "For meal prep, keep the glaze separate and toss after reheating so it stays crispy.",
-    "The caption gives the ingredients and macros but no steps or serving count, so the steps are the usual method for this kind of chicken and 3 servings is worked out from the protein numbers."
+    "For meal prep, keep the glaze separate and toss after reheating so it stays crispy."
   ]
 },
 {
@@ -270,8 +268,7 @@ window.RECIPES = [
   ],
   tips: [
     "To store: wrap each in foil once cooled and refrigerate. To reheat, microwave 30–60 seconds, then air fry until toasty.",
-    "You'll also need cooking spray, sliced pickles and parsley flakes.",
-    "The caption gives the ingredients, macros and bake time but not the cooking steps, so the steps are the usual method."
+    "You'll also need cooking spray, sliced pickles and parsley flakes."
   ]
 },
 {
