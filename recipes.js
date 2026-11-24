@@ -271,8 +271,7 @@ window.RECIPES = [
   tips: [
     "To store: wrap each in foil once cooled and refrigerate. To reheat, microwave 30–60 seconds, then air fry until toasty.",
     "You'll also need cooking spray, sliced pickles and parsley flakes.",
-    "The caption gives the ingredients, macros and bake time but not the cooking steps, so the steps are the usual method.",
-    "Recipe from @panaceapalm."
+    "The caption gives the ingredients, macros and bake time but not the cooking steps, so the steps are the usual method."
   ]
 },
 {
@@ -305,8 +304,7 @@ window.RECIPES = [
     "He air fried them in batches; don't crowd the basket.",
     "If you can't find protein flour, use all self-rising flour (about 200g total); protein drops a few grams per stick.",
     "The video just says \"flour\"; self-rising is what makes this 2-ingredient-style dough puff, so use that.",
-    "The amount of sauce per stick was covered by a notification in your recording, so 1 tbsp is my estimate.",
-    "Recipe from @tastyshreds."
+    "The amount of sauce per stick was covered by a notification in your recording, so 1 tbsp is my estimate."
   ]
 },
 {
