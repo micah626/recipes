@@ -181,5 +181,50 @@ window.RECIPES = [
     "Without ricotta the cheese layers come out stretchy and stringy instead of soft and creamy. For some of that creaminess back, stir 4 oz of softened cream cheese into the filling.",
     "Cut into 8 servings (the original estimate was 6). Nutrition is a rough estimate: the size of the loaf and how much bread you pull out change it the most."
   ]
+},
+{
+  id: "honey-garlic-popcorn-chicken",
+  name: "Honey Garlic Popcorn Chicken",
+  tag: "HG",
+  color: "#1f5f8b",
+  blurb: "Crispy air-fried chicken bites tossed in a buttery honey garlic glaze.",
+  serves: 3,
+  time: { total: 40, scales: 25 },   // cubing and coating the chicken, air frying in batches
+  macros: { cal: "506", protein: "46g", carbs: "66g", fat: "12g" },
+  choice: {                        // written for white meat; how to switch to dark meat
+    label: "Chicken",
+    base: "white",
+    options: {
+      dark: {
+        name: "Dark meat",
+        replace: [["Chicken breast", "Boneless skinless chicken thighs"], ["chicken breast", "boneless skinless chicken thighs"]],
+        macros: { cal: "~508", protein: "~40g", carbs: "66g", fat: "~15g" },
+        tip: "Trim the extra fat off the thighs before cubing. They stay juicy even if they air fry a couple of minutes longer."
+      },
+      white: { name: "White meat" }
+    }
+  },
+  groceries: [
+    ["Meat", ["Chicken breast, **1.43 pounds**"]],
+    ["Produce", ["Garlic, **3 cloves**"]],
+    ["Dairy", ["Light butter, **3 tablespoons**"]],
+    ["Pantry", ["Potato starch (or cornstarch), **1 cup**", "All-purpose flour, **3 tablespoons**", "Honey, **4 tablespoons**", "Sesame oil, **2 teaspoons**", "Brown sugar substitute (like brown stevia), **1 teaspoon** (optional, or use brown sugar)", "Cooking spray"]],
+    ["Spices (check what you have)", ["Garlic powder, **1 teaspoon**", "White pepper, **1.5 teaspoons** total", "Ground ginger, **0.5 teaspoons**", "Chili powder, **0.5 teaspoons**", "Salt, **1 teaspoon**"]]
+  ],
+  steps: [
+    ["Season the chicken", "In a bowl, toss **1.43 pounds chicken breast**, cut into 1-inch cubes with **1 teaspoon garlic powder**, **1 teaspoon white pepper** (chicken), **0.5 teaspoons ground ginger**, **0.5 teaspoons chili powder**, **1 teaspoon salt** and **2 teaspoons sesame oil** until coated."],
+    ["Make the batter", "Add **3 tablespoons all-purpose flour** and **0.33 cups water** to the bowl and mix until every piece is coated in a thin, sticky batter."],
+    ["Coat in starch", "Put **1 cup potato starch** in a separate bowl. Toss the chicken in it a few pieces at a time, pressing so the starch sticks. Shake off the extra."],
+    ["Air fry", "Lay the chicken in the air fryer basket in one layer (do batches if needed) and spray all over with cooking spray. Cook at 400°F for about 12–15 minutes, shaking and spraying again halfway, until golden and crispy and the chicken hits 165°F.", "14m"],
+    ["Make the glaze", "While it cooks, melt **3 tablespoons light butter** in a large pan over medium-low heat. Add **3 garlic cloves**, minced and cook about 1 minute until fragrant, then stir in **4 tablespoons honey**, **1 teaspoon brown sugar substitute** (like brown stevia) and **0.5 teaspoons white pepper** (glaze). Simmer 1–2 minutes until slightly thick and bubbly.", "2m"],
+    ["Toss and serve", "Turn off the heat, add the crispy chicken and toss until glazed. Eat right away while it's crunchy."]
+  ],
+  tips: [
+    "No air fryer: bake on a sprayed sheet pan at 425°F for 20‒25 minutes, flipping halfway.",
+    "Brown stevia is optional; skip it or use 1 tsp brown sugar.",
+    "Potato starch can be swapped for cornstarch.",
+    "For meal prep, keep the glaze separate and toss after reheating so it stays crispy.",
+    "The caption gives the ingredients and macros but no steps or serving count, so the steps are the usual method for this kind of chicken and 3 servings is worked out from the protein numbers."
+  ]
 }
 ];
