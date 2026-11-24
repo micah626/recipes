@@ -50,7 +50,7 @@ window.RECIPES = [
 },
 {
   id: "lo-mein",
-  name: "High-Protein Chicken Lo Mein",
+  name: "Chicken Lo Mein",
   tag: "LM",
   color: "#9a5b13",
   blurb: "Saucy, caramelized noodles loaded with seared chicken, eggs and veggies.",
@@ -95,7 +95,7 @@ window.RECIPES = [
 },
 {
   id: "cheesy-beef-burritos",
-  name: "High-Protein Cheesy Beef Burritos",
+  name: "Cheesy Beef Burritos",
   tag: "BB",
   color: "#3f6b2a",
   blurb: "Taco-seasoned lean beef and red rice, wrapped with cheese and toasted shut.",
@@ -277,7 +277,7 @@ window.RECIPES = [
 },
 {
   id: "pizza-sticks",
-  name: "High-Protein Mozzarella Pizza Sticks",
+  name: "Mozzarella Pizza Sticks",
   tag: "PS",
   color: "#0f6b63",
   blurb: "String cheese and turkey pepperoni wrapped in a Greek yogurt dough and air fried until golden.",

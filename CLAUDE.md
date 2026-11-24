@@ -14,12 +14,12 @@ The owner works out recipes in a separate chat, then pastes the final recipe her
 keep their exact amounts, wording and brand names. Don't invent macros, times or ingredients; ask if something
 is missing or ambiguous (e.g. servings).
 
-Append an object to `window.RECIPES` in `recipes.js`:
+Append an object to `window.RECIPES` in `recipes.js` (the home page sorts recipes A–Z by name, so order here doesn't matter):
 
 ```js
 {
   id: "short-kebab-id",            // URL slug, unique, never change it once published (checkmarks are keyed on it)
-  name: "Full Recipe Name",
+  name: "Full Recipe Name",        // leave out "High-Protein": every recipe here is high protein
   tag: "AB",                       // 1–3 letters shown on the tile (optional; defaults to initials)
   color: "#1f5f8b",                // tile color (optional; pick one not used by the other recipes)
   blurb: "One short sentence describing the dish.",

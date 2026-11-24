@@ -161,8 +161,8 @@ input[type=checkbox]:checked+span{color:var(--muted);text-decoration-color:curre
 </head>
 <body>
 <div id="app"></div>
-<script>window.APP_V="1795539784"</script>
-<script src="recipes.js?v=1795539784"></script>
+<script>window.APP_V="1795540055"</script>
+<script src="recipes.js?v=1795540055"></script>
 <script>
 {
 const R = window.RECIPES || [];
@@ -208,7 +208,7 @@ function renderHome(){
 }
 function drawList(){
   const terms = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
-  const hits = R.map((r,i)=>[r,i]).filter(([r]) => {
+  const hits = R.map((r,i)=>[r,i]).sort((a,b) => a[0].name.localeCompare(b[0].name)).filter(([r]) => {
     if(!terms.length) return true;
     const hay = [r.name, r.blurb||"", ...r.groceries.flatMap(g=>[g[0],...g[1].map(t=>grocHTML(t,1))])].join(" ").toLowerCase();
     return terms.every(t => hay.includes(t));
