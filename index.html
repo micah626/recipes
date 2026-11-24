@@ -161,8 +161,8 @@ input[type=checkbox]:checked+span{color:var(--muted);text-decoration-color:curre
 </head>
 <body>
 <div id="app"></div>
-<script>window.APP_V="1795538199"</script>
-<script src="recipes.js?v=1795538199"></script>
+<script>window.APP_V="1795538454"</script>
+<script src="recipes.js?v=1795538454"></script>
 <script>
 {
 const R = window.RECIPES || [];
@@ -408,7 +408,9 @@ function frac(v, eighths){
 function scaleNum(tok, unit, f){
   const v = (/^\d*[¼½¾⅓⅔⅛⅜⅝⅞]$/.test(tok) ? (+tok.slice(0,-1)||0) + FR[tok.slice(-1)] : +tok) * f;
   if(/^(tbsp|tablespoons?)$/i.test(unit) && v < .99) return [frac(v*3, true), /^tbsp$/i.test(unit) ? "tsp" : "teaspoons"];
+  if(/^cups?$/i.test(unit) && v < .24){ const tb = v * 16; return tb < .99 ? [frac(tb * 3, true), "teaspoons"] : [frac(tb, true), "tablespoons"]; }
   if(VOLUME.test(unit)) return [frac(v, true), unit];   // spoons and cups always read best as fractions
+  if(tok.includes(".") && !WEIGHT.test(unit) && !METRIC.test(unit)) return [frac(v, true), unit];   // "0.5 red onion" -> "¼ red onion"
   if(tok.includes(".")){ const d = tok.split(".")[1].length; return [String(+v.toFixed(d) || +v.toFixed(d+1)), unit]; }
   if(WEIGHT.test(unit)) return [frac(v, false), unit];
   if(METRIC.test(unit)) return [String(Math.max(1, Math.round(v))), unit];

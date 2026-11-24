@@ -226,5 +226,53 @@ window.RECIPES = [
     "For meal prep, keep the glaze separate and toss after reheating so it stays crispy.",
     "The caption gives the ingredients and macros but no steps or serving count, so the steps are the usual method for this kind of chicken and 3 servings is worked out from the protein numbers."
   ]
+},
+{
+  id: "hot-honey-chicken-sliders",
+  name: "Hot Honey Chicken Sliders",
+  tag: "HS",
+  color: "#8a4b2a",
+  blurb: "Spicy hot honey chicken and melty cheese baked into brioche sliders.",
+  serves: 6,
+  time: { total: 45, scales: 20 },   // cubing and cooking the chicken, building the sliders
+  macros: { cal: "560", protein: "56g", carbs: "33g", fat: "21g" },
+  choice: {                        // written for white meat; how to switch to dark meat
+    label: "Chicken",
+    base: "white",
+    options: {
+      dark: {
+        name: "Dark meat",
+        replace: [["Chicken breast", "Boneless skinless chicken thighs"], ["chicken breast", "boneless skinless chicken thighs"]],
+        macros: { cal: "~561", protein: "~52g", carbs: "33g", fat: "~23g" },
+        tip: "Trim the extra fat off the thighs before cubing. They stay juicy even if they cook a minute or two longer."
+      },
+      white: { name: "White meat" }
+    }
+  },
+  groceries: [
+    ["Meat", ["Chicken breast, **1.76 pounds**"]],
+    ["Produce", ["Red onion, {1|1/2} (you'll use **0.5**)"]],
+    ["Dairy", ["Reduced-fat shredded cheddar, **3.17 ounces**", "Reduced-fat Swiss cheese slices, **3.53 ounces**", "Shredded mozzarella, **8.82 ounces**", "Light butter, **1 tablespoon** (optional)"]],
+    ["Bakery", ["Brioche burger buns, **6**"]],
+    ["Pantry & sauces", ["Frank's RedHot, **0.25 cups**", "Honey, **4 teaspoons** total", "Light mayo, **2 tablespoons**", "Sriracha, **1 tablespoon**", "Sweet corn, **2 tablespoons**", "Sliced pickles", "Garlic paste or minced garlic, **0.5 teaspoons** (optional)", "Cooking spray"]],
+    ["Spices (check what you have)", ["Paprika, **1 tablespoon**", "Onion powder, **1 tablespoon**", "Garlic powder, **1 tablespoon**", "Cayenne, **1 teaspoon**", "Black pepper, **2 teaspoons**", "Salt, **1 tablespoon**", "Dried oregano, **2 teaspoons**", "Parsley flakes"]]
+  ],
+  steps: [
+    ["Heat the oven", "Preheat the oven to 375°F."],
+    ["Season the chicken", "Toss **1.76 pounds chicken breast**, cut into small cubes with **1 tablespoon paprika**, **1 tablespoon onion powder**, **1 tablespoon garlic powder**, **1 teaspoon cayenne**, **2 teaspoons black pepper** and **1 tablespoon salt**."],
+    ["Cook the chicken", "Spray a large pan with cooking spray and set it over medium-high heat. Cook the chicken until browned and cooked through (165°F), about 8 minutes.", "8m"],
+    ["Add the veggies", "Add **0.5 red onion**, diced, **2 tablespoons sweet corn** and **2 teaspoons dried oregano** and cook 2–3 minutes until the onion softens.", "2m 30s"],
+    ["Make it hot honey", "Lower the heat, pour in **0.25 cups Frank's RedHot**, drizzle with **1 tablespoon honey** (to drizzle) and stir to coat. Turn off the heat and stir in **3.17 ounces reduced-fat shredded cheddar** until melted."],
+    ["Mix the sriracha mayo", "In a small bowl, stir together **2 tablespoons light mayo**, **1 tablespoon sriracha** and **1 teaspoon honey** (sriracha mayo)."],
+    ["Build the sliders", "Split **6 brioche burger buns** and set the bottoms in a baking dish. Layer each with Swiss cheese (from **3.53 ounces reduced-fat Swiss cheese slices**), an equal share of the chicken, an equal share of **8.82 ounces shredded mozzarella** (about 40g each), pickles and a spread of sriracha mayo. Put the tops on."],
+    ["Garlic butter (optional)", "Melt **1 tablespoon light butter** (optional) with **0.5 teaspoons garlic paste or minced garlic** (optional) and a pinch of parsley flakes, then brush it over the bun tops."],
+    ["Bake", "Bake at 375°F for 10–12 minutes until the cheese is melted and the tops are toasty.", "11m"]
+  ],
+  tips: [
+    "To store: wrap each in foil once cooled and refrigerate. To reheat, microwave 30–60 seconds, then air fry until toasty.",
+    "You'll also need cooking spray, sliced pickles and parsley flakes.",
+    "The caption gives the ingredients, macros and bake time but not the cooking steps, so the steps are the usual method.",
+    "Recipe from @panaceapalm."
+  ]
 }
 ];
