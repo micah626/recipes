@@ -161,8 +161,8 @@ input[type=checkbox]:checked+span{color:var(--muted);text-decoration-color:curre
 </head>
 <body>
 <div id="app"></div>
-<script>window.APP_V="1795540055"</script>
-<script src="recipes.js?v=1795540055"></script>
+<script>window.APP_V="1795540384"</script>
+<script src="recipes.js?v=1795540384"></script>
 <script>
 {
 const R = window.RECIPES || [];
@@ -422,7 +422,7 @@ const NUMTOK = /(\d+\.\d+|\d*[¼½¾⅓⅔⅛⅜⅝⅞]|\d+)(\s*)([A-Za-z]*)/g;
 const scaleAll = (text, f) => text.replace(NUMTOK, (m, tok, sp, unit) => {
   let n; [n, unit] = scaleNum(tok, unit, f);
   // "1 cup" / "2 cups", "0.5 ounce" / "2 ounces": match the unit to the new amount
-  const m2 = unit.match(/^(cup|teaspoon|tablespoon|ounce|pound)s?$/i);
+  const m2 = unit.match(/^(cup|teaspoon|tablespoon|ounce|pound|gram)s?$/i);
   if(m2) unit = m2[1] + (isOne(n) ? "" : "s");
   return n + sp + unit;
 });
@@ -442,7 +442,7 @@ function scaleBold(html, f){
   return html.replace(/<b>(.*?)<\/b>(\s*\(([^)]*)\))?/g, (m, inner, paren, note) => {
     let out = `<b class="scaled">${agree(inner, scaleAll(inner, f))}</b>`;
     if(paren){
-      if(/\beach$/i.test(note.trim())) out += paren;   // per-item notes like "(about 30g, each)" don't change
+      if(/\beach\b/i.test(note)) out += paren;   // per-item notes like "(about 30g, each)", "(150g each, about ¾ cup)" don't change
       else if(/[¼½¾⅓⅔⅛⅜⅝⅞]|\d/.test(note.replace(/\d+%/g, ""))) {
         if(/(\d|[¼½¾⅓⅔⅛⅜⅝⅞])\s*(tsp|tbsp|cups?|oz|lbs?)\b/i.test(note)) out += paren.replace(note, scaleAll(note, f));
       } else out += paren;

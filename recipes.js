@@ -308,5 +308,52 @@ window.RECIPES = [
     "The amount of sauce per stick was covered by a notification in your recording, so 1 tbsp is my estimate.",
     "Recipe from @tastyshreds."
   ]
+},
+{
+  id: "sweet-chili-popcorn-chicken",
+  name: "Crispy Sweet Chili Popcorn Chicken",
+  tag: "SC",
+  color: "#5b3fa0",
+  blurb: "Air-fried popcorn chicken tossed in a sticky sweet chili glaze, served over rice.",
+  serves: 7,
+  time: { total: 80, scales: 55 },   // dicing and coating the chicken, air frying in batches, portioning
+  macros: { cal: "544", protein: "54g" },
+  choice: {                        // written for white meat; how to switch to dark meat
+    label: "Chicken",
+    base: "white",
+    options: {
+      dark: {
+        name: "Dark meat",
+        replace: [["Chicken breast", "Boneless skinless chicken thighs"], ["chicken breast", "boneless skinless chicken thighs"]],
+        macros: { cal: "~546", protein: "~48g" },
+        tip: "Trim the extra fat off the thighs before dicing. They stay juicy even if they air fry a couple of minutes longer."
+      },
+      white: { name: "White meat" }
+    }
+  },
+  groceries: [
+    ["Meat & eggs", ["Chicken breast, **3.09 pounds**", "Large eggs, **2**"]],
+    ["Produce", ["Garlic, **4 cloves**", "Green onion, for topping (optional)", "Red chili, for topping (optional)"]],
+    ["Pantry & sauces", ["Low-sodium soy sauce, **0.76 cups** total", "Light sweet chili sauce, **8.82 ounces**", "Honey, **3.17 ounces**", "Sriracha, **0.71 ounces**", "Potato starch (or cornstarch), **8.82 ounces**", "Cornstarch, **5 grams**", "White rice, about **1⅓ cups** dry", "Sesame seeds, for topping (optional)", "Cooking spray"]],
+    ["Spices (check what you have)", ["Onion powder, **1 teaspoon**", "Garlic powder, **1 teaspoon**", "White pepper, **0.5 teaspoons**", "Red pepper flakes, **0.5 teaspoons**"]]
+  ],
+  steps: [
+    ["Marinate the chicken", "In a big bowl, mix **3.09 pounds chicken breast**, diced with **2 large eggs**, **1 teaspoon onion powder**, **1 teaspoon garlic powder**, **0.5 teaspoons white pepper** and **0.38 cups low-sodium soy sauce** (marinade) until every piece is coated. Let it sit about 10 minutes."],
+    ["Coat in starch", "Put **8.82 ounces potato starch** (about 80g sticks) in a separate bowl. Toss the chicken in it in batches, pressing so it sticks, and shake off the extra."],
+    ["Crisp the chicken", "Spray with cooking spray and air fry at 400°F for about 12–15 minutes, shaking and spraying again halfway, until golden and crispy and 165°F inside. Do it in batches so the basket isn't crowded.", "14m"],
+    ["Start the glaze", "In a large pan over medium heat with a little cooking spray, cook **4 garlic cloves**, minced for 30 seconds. Add **0.38 cups low-sodium soy sauce** (glaze), **0.38 cups water** (glaze), **8.82 ounces light sweet chili sauce**, **3.17 ounces honey**, **0.71 ounces sriracha** and **0.5 teaspoons red pepper flakes** and bring to a simmer.", "1m"],
+    ["Thicken it", "Stir **5 grams cornstarch** into **0.42 cups cold water** (slurry), pour it in and simmer 1–2 minutes until glossy and sticky.", "2m"],
+    ["Glaze the chicken", "Turn off the heat, add the crispy chicken and toss until fully coated."],
+    ["Portion it out", "Split **2.31 pounds cooked white rice** into **7 containers** (150g each, about ¾ cup), top with the chicken and sprinkle with sesame seeds, sliced green onion and sliced red chili if you like. Cool before sealing."]
+  ],
+  tips: [
+    "Chicken only (no rice): about 349 cal and 50g protein per serving.",
+    "No air fryer: bake on a sprayed sheet pan at 425°F for 18–22 minutes, flipping halfway.",
+    "Cook about 1⅓ cups dry rice to get 1,050g cooked.",
+    "Ayam's sweet chili sauce is Australian; any light or reduced-sugar sweet chili sauce works (regular adds calories).",
+    "Potato starch can be swapped for cornstarch.",
+    "The chili flake amount isn't given; ½ tsp is a starting point.",
+    "The caption lists ingredients and macros but no steps, so the steps are the usual method."
+  ]
 }
 ];

@@ -47,8 +47,8 @@ Each recipe page has a servings control. It rescales numbers inside **bold** in 
 decimals kept for decimal amounts like 2.4 lb, whole numbers for counts like 10 eggs). So put every amount that should
 scale in bold, with its unit right after the number ("**2½ tsp smoked paprika**", "**10 eggs**").
 A note in parentheses directly after a bold amount is rescaled if it holds a measurement ("(just over 2 cups dry)") and
-hidden if it holds some other number ("(¾ of the block)"); percentages like "(95% lean)" and notes ending in "each"
-("(about 30g, each)") are always kept as is. Counts fix their noun: "1 medium red onion" -> "2 medium red onions",
+hidden if it holds some other number ("(¾ of the block)"); percentages like "(95% lean)" and notes with "each" in them
+("(about 30g, each)", "(150g each, about ¾ cup)") are always kept as is. Counts fix their noun: "1 medium red onion" -> "2 medium red onions",
 "6 tortillas" -> "1 tortilla"; unit words too ("1 teaspoon" / "2 teaspoons"). Times, temperatures and sizes ("8 minutes", "165°F",
 "1.5-inch") must not be bold.
 
@@ -63,7 +63,8 @@ The grocery list scales too:
 At the original servings everything displays exactly as written, without the markup.
 
 Tile colors already in use: `#b8261c` (red), `#9a5b13` (amber), `#3f6b2a` (green), `#7a2e5c` (plum), `#1f5f8b` (blue),
-`#8a4b2a` (brown), `#0f6b63` (teal). Other good ones: `#5b3fa0` violet, `#3d4f7a` slate, `#a3402a` rust, `#5c6b2a` olive.
+`#8a4b2a` (brown), `#0f6b63` (teal), `#5b3fa0` (violet). Other good ones: `#3d4f7a` slate, `#a3402a` rust,
+`#5c6b2a` olive, `#2f6f8f` steel blue.
 
 ### Recipe options (switches)
 
