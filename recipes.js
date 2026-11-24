@@ -350,8 +350,7 @@ window.RECIPES = [
     "Cook about 1⅓ cups dry rice to get 1,050g cooked.",
     "Ayam's sweet chili sauce is Australian; any light or reduced-sugar sweet chili sauce works (regular adds calories).",
     "Potato starch can be swapped for cornstarch.",
-    "The chili flake amount isn't given; ½ tsp is a starting point.",
-    "The caption lists ingredients and macros but no steps, so the steps are the usual method."
+    "The chili flake amount isn't given; ½ tsp is a starting point."
   ]
 }
 ];
